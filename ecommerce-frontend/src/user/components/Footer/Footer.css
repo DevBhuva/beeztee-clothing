@@ -1,0 +1,271 @@
+/* --- General Footer Styles --- */
+.site-footer {
+  background-color: #2c3e50; /* Dark, professional background */
+  color: #ecf0f1;           /* Light text for contrast */
+  padding: 60px 0 20px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px; /* Space between sections */
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px; /* Prevents sections from becoming too narrow */
+}
+
+/* --- Section Specific Styles --- */
+
+/* Logo & About */
+.footer-section.about h2 {
+  color: #ffffff;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.footer-section.about p {
+  margin-bottom: 20px;
+}
+
+.social-icons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: #ecf0f1;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #3498db; /* Accent color on hover */
+}
+
+/* Links Sections */
+.footer-section.links h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* Add a subtle underline to headings */
+.footer-section.links h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 2px;
+  background-color: #3498db;
+}
+
+.footer-section.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section.links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section.links a {
+  color: #bdc3c7; /* Slightly dimmer text for links */
+  text-decoration: none;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.footer-section.links a:hover {
+  color: #3498db;
+  padding-left: 5px; /* Subtle slide-in effect */
+}
+
+/* Newsletter Section */
+.footer-section.newsletter h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.footer-section.newsletter p {
+  margin-bottom: 20px;
+}
+
+.footer-section.newsletter form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-section.newsletter input[type="email"] {
+  padding: 12px;
+  border: 1px solid #34495e;
+  background-color: #34495e;
+  border-radius: 4px;
+  color: #ecf0f1;
+  font-size: 15px;
+}
+
+.footer-section.newsletter input[type="email"]::placeholder {
+  color: #7f8c8d;
+}
+
+.footer-section.newsletter button {
+  padding: 12px 20px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.footer-section.newsletter button:hover {
+  background-color: #2980b9;
+}
+
+/* --- Footer Bottom Bar --- */
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #34495e;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+  .site-footer {
+    padding: 50px 0 20px;
+  }
+
+  .container {
+    padding: 0 30px;
+  }
+
+  .footer-content {
+    gap: 30px;
+  }
+
+  .footer-section.about h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 40px 0 20px;
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 35px;
+  }
+
+  .footer-section {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .footer-section.about h2 {
+    font-size: 22px;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-section.links h3 {
+    font-size: 16px;
+  }
+
+  .footer-section.links h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-section.newsletter h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-footer {
+    padding: 30px 0 15px;
+    font-size: 13px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .footer-content {
+    gap: 25px;
+  }
+
+  .footer-section.about h2 {
+    font-size: 20px;
+  }
+
+  .footer-section.about p {
+    font-size: 13px;
+  }
+
+  .social-icons a {
+    font-size: 18px;
+  }
+
+  .footer-section.links h3 {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+
+  .footer-section.links ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-section.links a {
+    font-size: 13px;
+  }
+
+  .footer-section.newsletter input[type="email"] {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .footer-section.newsletter button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+    padding-top: 15px;
+    margin-top: 30px;
+  }
+}

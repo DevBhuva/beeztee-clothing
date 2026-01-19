@@ -1,0 +1,198 @@
+   /* Customer Reviews */
+        .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 100;
+    letter-spacing: 0.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+        .reviews {
+            padding: 100px 50px;
+            background: #f8f8f8;
+        }
+
+        .reviews-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .reviews-container .section-header h2 {
+            color: #1a1a1a;
+        }
+
+        .reviews-container .section-header p {
+            color: #666666;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .review-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(196, 134, 47, 0.2);
+            border-color: #C4862F;
+        }
+
+        .review-stars {
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        .review-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #333333;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #1a1a1a;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: #888888;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .reviews {
+                padding: 80px 40px;
+            }
+
+            .section-header {
+                margin-bottom: 60px;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .reviews-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .review-card {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .reviews {
+                padding: 60px 30px;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 0.15rem;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .review-card {
+                padding: 25px;
+            }
+
+            .review-text {
+                font-size: 1rem;
+            }
+
+            .author-info h4 {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reviews {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                letter-spacing: 0.1rem;
+            }
+
+            .section-title::after {
+                width: 80px;
+            }
+
+            .review-card {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .review-stars {
+                font-size: 0.9rem;
+            }
+
+            .review-text {
+                font-size: 0.95rem;
+            }
+
+            .author-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .author-info h4 {
+                font-size: 0.95rem;
+            }
+
+            .author-info p {
+                font-size: 0.85rem;
+            }
+        }

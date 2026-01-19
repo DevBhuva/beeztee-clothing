@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My E-Commerce | Single Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 🧭 Navbar -->
+      <nav id="navbar">
+        <div class="nav-container">
+          
+            <div class="logo">Beestee</div>
+            <ul class="nav-links">
+                <li><a href="#home"  class="active" data-page="home">HOME</a></li>
+                <li><a href="#shop" data-page="shop"  >SHOP</a></li>
+                <li><a href="#collection" data-page="men" >MEN</a></li>
+                <li><a href="#lookbook" data-page="women" >WOMEN</a></li>
+                <li><a href="#sale" data-page="sale" >SALE</a></li>
+                <li><a href="#about" data-page="about" >ABOUT</a></li>
+                <li><a href="#contact" data-page="contact" >CONTACT</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                   
+                </div>
+            </div>
+        </div>
+    </nav>
+
+  <!-- 🏠 Home -->
+    <!-- ===================== HERO SECTION (VIDEO) ===================  -->
+    <section id="home" class="hero-section">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Video Overlay with Gradient -->
+        <div class="video-overlay"></div>
+        
+        <!-- Animated Particles Background -->
+        <div class="particles" id="particles"></div>
+        
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <h1 class="glitch" data-text="ÉCLAT">ÉCLAT</h1>
+            <p class="tagline">Wear the Future. Redefine the Present.</p>
+            <div class="btn-container">
+                <a href="#collection" class="btn btn-primary magnetic-btn">Explore Collection</a>
+                <a href="#about" class="btn btn-secondary">Discover More</a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll</span>
+            <div class="mouse"></div>
+        </div>
+        
+        <!-- Navigation Dots -->
+        <div class="nav-dots">
+            <div class="dot active" data-section="home"></div>
+            <div class="dot" data-section="collection"></div>
+            <div class="dot" data-section="about"></div>
+            <div class="dot" data-section="contact"></div>
+        </div>
+        
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+            <a href="#instagram" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#facebook" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#pinterest" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+        </div>
+    </section>
+
+       <!-- Best Sellers Section -->
+    <section id="shop" class="best-sellers">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab" data-filter="all">All Products</div>
+            <div class="filter-tab " data-filter="women">Women</div>
+            <div class="filter-tab" data-filter="men">Men</div>
+            <div class="filter-tab" data-filter="accessories">Accessories</div>
+            <div class="filter-tab" data-filter="new">New Arrivals</div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card" data-category="women">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion1/400/500.jpg" alt="Ethereal Dress" class="product-image">
+                    <div class="product-badge">Best Seller</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Dresses</div>
+                    <h3 class="product-name">Ethereal Dream Dress</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(247)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$189</span>
+                        <span class="original-price">$249</span>
+                        <span class="discount">-24%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #f8f8f8;"></div>
+                        <div class="color-option" style="background-color: #333;"></div>
+                        <div class="color-option" style="background-color: #c9a961;"></div>
+                        <div class="color-option" style="background-color: #e25c4d;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card" data-category="men">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion2/400/500.jpg" alt="Urban Jacket" class="product-image">
+                    <div class="product-badge">Limited Edition</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Jackets</div>
+                    <h3 class="product-name">Urban Explorer Jacket</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-count">(189)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$279</span>
+                        <span class="original-price">$349</span>
+                        <span class="discount">-20%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #333;"></div>
+                        <div class="color-option" style="background-color: #5d4037;"></div>
+                        <div class="color-option" style="background-color: #78909c;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card" data-category="accessories">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion3/400/500.jpg" alt="Luxury Bag" class="product-image">
+                    <div class="product-badge">Trending</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Bags</div>
+                    <h3 class="product-name">Metropolitan Luxury Bag</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-count">(156)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$349</span>
+                        <span class="original-price">$429</span>
+                        <span class="discount">-19%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #8d6e63;"></div>
+                        <div class="color-option" style="background-color: #212121;"></div>
+                        <div class="color-option" style="background-color: #f5f5f5;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card" data-category="women">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion4/400/500.jpg" alt="Elegant Blouse" class="product-image">
+                    <div class="product-badge">New</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Tops</div>
+                    <h3 class="product-name">Silk Elegance Blouse</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(203)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$129</span>
+                        <span class="original-price">$169</span>
+                        <span class="discount">-24%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #fce4ec;"></div>
+                        <div class="color-option" style="background-color: #e1f5fe;"></div>
+                        <div class="color-option" style="background-color: #f3e5f5;"></div>
+                        <div class="color-option" style="background-color: #e8f5e9;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card" data-category="men">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion5/400/500.jpg" alt="Premium Jeans" class="product-image">
+                    <div class="product-badge">Best Seller</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Jeans</div>
+                    <h3 class="product-name">Premium Denim Jeans</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-count">(312)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$159</span>
+                        <span class="original-price">$199</span>
+                        <span class="discount">-20%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #3e2723;"></div>
+                        <div class="color-option" style="background-color: #424242;"></div>
+                        <div class="color-option" style="background-color: #90a4ae;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card" data-category="accessories">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion6/400/500.jpg" alt="Designer Sunglasses" class="product-image">
+                    <div class="product-badge">Exclusive</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Accessories</div>
+                    <h3 class="product-name">Designer Aviator Sunglasses</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-count">(128)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$189</span>
+                        <span class="original-price">$229</span>
+                        <span class="discount">-17%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #212121;"></div>
+                        <div class="color-option" style="background-color: #795548;"></div>
+                        <div class="color-option" style="background-color: #455a64;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card" data-category="women">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion7/400/500.jpg" alt="Casual Sneakers" class="product-image">
+                    <div class="product-badge">Trending</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Shoes</div>
+                    <h3 class="product-name">Urban Comfort Sneakers</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(267)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$119</span>
+                        <span class="original-price">$159</span>
+                        <span class="discount">-25%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #ffffff;"></div>
+                        <div class="color-option" style="background-color: #212121;"></div>
+                        <div class="color-option" style="background-color: #f44336;"></div>
+                        <div class="color-option" style="background-color: #2196f3;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card" data-category="men">
+                <div class="product-image-container">
+                    <img src="https://picsum.photos/seed/fashion8/400/500.jpg" alt="Classic Watch" class="product-image">
+                    <div class="product-badge">Limited</div>
+                    <div class="product-actions">
+                        <div class="action-btn"><i class="far fa-heart"></i></div>
+                        <div class="action-btn"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <button class="quick-view-btn">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Accessories</div>
+                    <h3 class="product-name">Classic Heritage Watch</h3>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-count">(198)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$429</span>
+                        <span class="original-price">$529</span>
+                        <span class="discount">-19%</span>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #c0c0c0;"></div>
+                        <div class="color-option" style="background-color: #212121;"></div>
+                        <div class="color-option" style="background-color: #b8860b;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container">
+            <button class="load-more-btn">Load More Products</button>
+        </div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        <div class="modal-content">
+            <div class="close-modal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-body">
+                <img src="https://picsum.photos/seed/modal1/600/700.jpg" alt="Product" class="modal-image">
+                <div class="modal-info">
+                    <h2 class="modal-title">Ethereal Dream Dress</h2>
+                    <div class="modal-price">$189 <span style="text-decoration: line-through; color: #aaa; font-size: 1.2rem;">$249</span></div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(247 reviews)</span>
+                    </div>
+                    <p class="modal-description">
+                        Experience the epitome of elegance with our Ethereal Dream Dress. Crafted from premium silk with meticulous attention to detail, this dress features a flowing silhouette that drapes beautifully on any body type. Perfect for special occasions or when you want to feel extraordinary.
+                    </p>
+                    <div class="modal-options">
+                        <div class="option-title">Size</div>
+                        <div class="size-options">
+                            <div class="size-option">XS</div>
+                            <div class="size-option">S</div>
+                            <div class="size-option active">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <div class="option-title">Color</div>
+                        <div class="color-options">
+                            <div class="color-option active" style="background-color: #f8f8f8;"></div>
+                            <div class="color-option" style="background-color: #333;"></div>
+                            <div class="color-option" style="background-color: #c9a961;"></div>
+                            <div class="color-option" style="background-color: #e25c4d;"></div>
+                        </div>
+                        <div class="option-title">Quantity</div>
+                        <div class="quantity-selector">
+                            <div class="quantity-btn">-</div>
+                            <input type="number" class="quantity-input" value="1" min="1" max="10">
+                            <div class="quantity-btn">+</div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <!-- Shop by Category -->
+    <section class="categories reveal" id="categories">
+        <div class="section-header">
+            <h2 class="section-title">SHOP BY CATEGORY</h2>
+            <p>Find your perfect style</p>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card" onclick="filterByCategory('women')">
+                <img src="https://picsum.photos/seed/women/400/500" alt="Women" class="category-image">
+                <div class="category-overlay">
+                    <h3 class="category-name">Women</h3>
+                    <p class="category-count">250+ Items</p>
+                </div>
+            </div>
+            <div class="category-card" onclick="filterByCategory('men')">
+                <img src="https://picsum.photos/seed/men/400/500" alt="Men" class="category-image">
+                <div class="category-overlay">
+                    <h3 class="category-name">Men</h3>
+                    <p class="category-count">180+ Items</p>
+                </div>
+            </div>
+            <div class="category-card" onclick="filterByCategory('accessories')">
+                <img src="https://picsum.photos/seed/accessories/400/500" alt="Accessories" class="category-image">
+                <div class="category-overlay">
+                    <h3 class="category-name">Accessories</h3>
+                    <p class="category-count">120+ Items</p>
+                </div>
+            </div>
+            <div class="category-card" onclick="filterByCategory('shoes')">
+                <img src="https://picsum.photos/seed/shoes/400/500" alt="Shoes" class="category-image">
+                <div class="category-overlay">
+                    <h3 class="category-name">Shoes</h3>
+                    <p class="category-count">90+ Items</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRENDING SECTION -->
+  <section class="trending-section">
+    <div class="section-header">
+      <h2 class="section-title">TRENDING NOW</h2>
+    </div>
+
+    <div class="trending-container">
+      <div class="trending-products" id="scrollContainer">
+        <!-- Products will be dynamically inserted here by JS -->
+      </div>
+
+      <!-- Scroll progress bar -->
+      <div class="scroll-progress">
+        <div class="scroll-bar" id="scrollBar"></div>
+      </div>
+    </div>
+  </section>
+   <!-- Brand Story Section -->
+    <section class="brand-story reveal">
+        <div class="story-content">
+            <h2>OUR STORY</h2>
+            <p>Founded in 2020, AETHER emerged from a vision to redefine luxury fashion through innovative design and sustainable practices. Our journey began with a simple question: What if elegance could be both timeless and forward-thinking?</p>
+            <p>Today, we're proud to be at the forefront of contemporary fashion, creating pieces that not only look beautiful but also feel meaningful. Each collection tells a story of craftsmanship, creativity, and conscious design.</p>
+            <div class="story-stats">
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100K+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Unique Designs</span>
+                </div>
+            </div>
+        </div>
+        <div class="story-image">
+            <img src="https://picsum.photos/seed/story/600/600" alt="Our Story">
+        </div>
+    </section>
+     <!-- Customer Reviews -->
+    <section class="reviews reveal">
+        <div class="reviews-container">
+            <div class="section-header">
+                <h2 class="section-title">CUSTOMER LOVE</h2>
+                <p>What our customers say about us</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"Absolutely in love with the quality and design! Every piece feels like it was made just for me. AETHER has become my go-to for special occasions."</p>
+                    <div class="review-author">
+                        <img src="https://picsum.photos/seed/reviewer1/50/50" alt="Reviewer" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"The attention to detail is unmatched. I've never received so many compliments on my outfits. Worth every penny!"</p>
+                    <div class="review-author">
+                        <img src="https://picsum.photos/seed/reviewer2/50/50" alt="Reviewer" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"Sustainable fashion that doesn't compromise on style. AETHER is leading the way in conscious luxury."</p>
+                    <div class="review-author">
+                        <img src="https://picsum.photos/seed/reviewer3/50/50" alt="Reviewer" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Emma Williams</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- Sustainability Section -->
+    <section class="sustainability reveal">
+        <div class="section-header">
+            <h2 class="section-title">OUR COMMITMENT</h2>
+            <p>Fashion with a conscience</p>
+        </div>
+        <div class="sustainability-content">
+            <div class="sustainability-card">
+                <div class="sustainability-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Sustainable Materials</h3>
+                <p>We use eco-friendly fabrics and sustainable production methods to minimize our environmental impact.</p>
+            </div>
+            <div class="sustainability-card">
+                <div class="sustainability-icon">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <h3>Circular Fashion</h3>
+                <p>Our recycling program allows customers to return old garments for store credit, promoting a circular economy.</p>
+            </div>
+            <div class="sustainability-card">
+                <div class="sustainability-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3>Ethical Production</h3>
+                <p>We ensure fair wages and safe working conditions for all workers in our supply chain.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Sale Section -->
+    <section class="sale reveal" id="sale">
+        <div class="sale-banner">
+            <h2 class="sale-title">SEASON SALE</h2>
+            <p class="sale-subtitle">Up to 50% off selected items</p>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">05</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">12</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">34</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">56</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+        <div class="sale-products" id="saleProducts">
+            <!-- Sale products will be dynamically loaded -->
+        </div>
+    </section>
+
+       <!-- Size Guide Section -->
+    <section class="size-guide reveal">
+        <div class="section-header">
+            <h2 class="section-title">SIZE GUIDE</h2>
+            <p>Find your perfect fit</p>
+        </div>
+        <div class="size-guide-content">
+            <div class="size-guide-info">
+                <h3>How to Measure</h3>
+                <p>For the best fit, measure yourself using a flexible tape measure. Keep the tape measure snug but not tight.</p>
+                <p><strong>Bust:</strong> Measure around the fullest part of your chest</p>
+                <p><strong>Waist:</strong> Measure around your natural waistline</p>
+                <p><strong>Hips:</strong> Measure around the fullest part of your hips</p>
+            </div>
+            <table class="size-table">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Bust (cm)</th>
+                        <th>Waist (cm)</th>
+                        <th>Hips (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>XS</td>
+                        <td>80-84</td>
+                        <td>60-64</td>
+                        <td>86-90</td>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>84-88</td>
+                        <td>64-68</td>
+                        <td>90-94</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>88-92</td>
+                        <td>68-72</td>
+                        <td>94-98</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>92-96</td>
+                        <td>72-76</td>
+                        <td>98-102</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td>
+                        <td>96-100</td>
+                        <td>76-80</td>
+                        <td>102-106</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+  <!-- ℹ️ shop -->
+  
+
+  <!-- 🛍 men -->
+  
+
+  <!-- 👕 women -->
+  
+
+  <!-- 👗  -->
+
+
+
+
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+
+      <!-- About Section -->
+      <div class="footer-section about">
+        <h2 class="logo-text">YourBrand</h2>
+        <p>
+          We are dedicated to providing the best service and products for our community. Your satisfaction is our priority.
+        </p>
+        <ul class="social-icons">
+          <li><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+          <li><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+          <li><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+        </ul>
+      </div>
+
+      <!-- Quick Links Section -->
+      <div class="footer-section links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Services</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Support Section -->
+      <div class="footer-section links">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter Section -->
+      <div class="footer-section newsletter">
+        <h3>Subscribe to Our Newsletter</h3>
+        <p>Get the latest updates and offers right in your inbox.</p>
+        <form action="#" method="post">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <p>&copy; 2024 YourBrand. All rights reserved. Made with ❤️ by You.</p>
+    </div>
+  </div>
+</footer>
+  
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+     /* Size Guide Section */
+ .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 100;
+    letter-spacing: 0.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+        .size-guide {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+
+        .size-guide .section-header h2 {
+            color: #1a1a1a;
+        }
+
+        .size-guide .section-header p {
+            color: #666666;
+        }
+
+        .size-guide-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .size-guide-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #C4862F;
+            font-weight: 700;
+        }
+
+        .size-guide-info p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #333333;
+        }
+
+        .size-guide-info p strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .size-table th,
+        .size-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .size-table th {
+            background: #C4862F;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .size-table td {
+            color: #333333;
+        }
+
+        .size-table tr:hover {
+            background: #fff8f0;
+        }
+
+        .size-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .size-guide {
+                padding: 80px 40px;
+            }
+
+            .section-header {
+                margin-bottom: 60px;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .size-guide-content {
+                gap: 40px;
+            }
+
+            .size-guide-info h3 {
+                font-size: 1.7rem;
+            }
+
+            .size-table th,
+            .size-table td {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .size-guide {
+                padding: 60px 30px;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 0.15rem;
+            }
+
+            .section-title::after {
+                width: 80px;
+            }
+
+            .size-guide-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .size-guide-info h3 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+
+            .size-guide-info p {
+                text-align: center;
+            }
+
+            .size-table th,
+            .size-table td {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .size-guide {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                letter-spacing: 0.1rem;
+            }
+
+            .size-guide-info h3 {
+                font-size: 1.3rem;
+            }
+
+            .size-guide-info p {
+                font-size: 0.95rem;
+            }
+
+            .size-table {
+                font-size: 0.85rem;
+            }
+
+            .size-table th,
+            .size-table td {
+                padding: 10px 5px;
+                font-size: 0.8rem;
+            }
+
+            .size-table th {
+                letter-spacing: 0.5px;
+            }
+        }

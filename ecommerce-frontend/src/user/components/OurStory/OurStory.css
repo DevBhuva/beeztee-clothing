@@ -1,0 +1,151 @@
+       /* Brand Story Section */
+        .brand-story {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        .story-content h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.2rem;
+            margin-bottom: 30px;
+            color: #C4862F;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        .story-image {
+            position: relative;
+            height: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #C4862F;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666666;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .brand-story {
+                padding: 80px 40px;
+                gap: 60px;
+            }
+
+            .story-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .story-image {
+                height: 500px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .brand-story {
+                grid-template-columns: 1fr;
+                padding: 60px 30px;
+                gap: 40px;
+            }
+
+            .story-content h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .story-content p {
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            .story-image {
+                height: 400px;
+                order: -1;
+            }
+
+            .story-stats {
+                justify-content: center;
+                gap: 30px;
+                flex-wrap: wrap;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-story {
+                padding: 40px 20px;
+            }
+
+            .story-content h2 {
+                font-size: 1.6rem;
+                letter-spacing: 0.1rem;
+            }
+
+            .story-content p {
+                font-size: 0.95rem;
+            }
+
+            .story-image {
+                height: 300px;
+                border-radius: 15px;
+            }
+
+            .story-stats {
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+        }

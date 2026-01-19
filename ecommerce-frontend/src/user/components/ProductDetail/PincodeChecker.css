@@ -1,0 +1,149 @@
+/* PincodeChecker.css */
+
+.pincode-checker {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  background: #fff;
+}
+
+.pincode-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pincode-title i {
+  color: #2e7d32;
+  font-size: 16px;
+}
+
+.pincode-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pincode-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.pincode-input:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+}
+
+.pincode-input::placeholder {
+  color: #999;
+}
+
+.pincode-check-btn {
+  padding: 12px 24px;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.pincode-check-btn:hover:not(:disabled) {
+  background: #1b5e20;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(46,125,50,0.3);
+}
+
+.pincode-check-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pincode-result {
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pincode-result.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.pincode-result.error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
+.pincode-result i {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.delivery-info {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.delivery-info-item {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.delivery-info-item i {
+  color: #2e7d32;
+  font-size: 14px;
+  margin-right: 0;
+}
+
+.delivery-info-item strong {
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .pincode-checker {
+    padding: 12px;
+  }
+
+  .pincode-input-group {
+    flex-direction: column;
+  }
+
+  .pincode-check-btn {
+    width: 100%;
+  }
+}

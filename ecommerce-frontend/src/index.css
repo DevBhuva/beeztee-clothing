@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+/* styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Core theme (applied across all pages) */
+  --primary: #0a0a0a;         /* App background / dark surfaces */
+  --text-light: #f5f5f5;      /* Text on dark */
+  --text-dark: #1a1a1a;       /* Text on light */
+
+  --secondary: #d4a574;       /* Warm highlight */
+  --accent: #e91e63;          /* Action / links */
+  --gold: #d4af37;            /* Decorative gold */
+
+  --white: #ffffff;           /* Light surfaces */
+  --light: #f5f5f5;           /* Light section bg */
+  --gray: #666666;            /* Muted text */
+  --dark-gray: #333333;       /* Secondary dark */
+
+  --glass: rgba(255, 255, 255, 0.05);
+  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  --max-width: 1400px;
+  --radius: 10px;
+
+  /* Responsive Font Sizes */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-special: 'Montserrat', sans-serif;
+
+  /* Responsive Spacing */
+  --section-padding: 100px;
+  --container-padding: 50px;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: var(--primary);
+  color: var(--text-light);
+  overflow-x: hidden;
+}
+
+/* Global Responsive Container */
+.container-responsive {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Responsive Typography */
+@media (max-width: 1400px) {
+  :root {
+    --section-padding: 80px;
+    --container-padding: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --section-padding: 60px;
+    --container-padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 40px;
+    --container-padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-padding: 30px;
+    --container-padding: 15px;
+  }
+}
+
+/* Responsive Image Utility */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Hide scrollbar on mobile for smooth experience */
+@media (max-width: 768px) {
+  body::-webkit-scrollbar {
+    width: 0px;
+  }
+}

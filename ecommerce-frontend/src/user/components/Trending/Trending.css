@@ -1,0 +1,435 @@
+/* Trending Section */
+.trending-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  padding: 80px 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.trending-container {
+  max-width: 100%;
+  padding: 0 40px;
+}
+
+/* Header */
+.trending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 70px;
+}
+
+.trending-header .header-content {
+  text-align: left;
+}
+
+.trending-title {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  background: linear-gradient(90deg, #ff0080, #ff8c00, #40e0d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+  font-family: var(--font-heading);
+  white-space: nowrap;
+}
+
+.trending-subtitle {
+  font-size: 1.1rem;
+  color: #cccccc;
+  font-weight: 400;
+}
+
+/* View All Button */
+.trending-header .view-all-btn {
+  padding: 10px 24px;
+  background: linear-gradient(90deg, #ff0080, #ff8c00);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-special);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.trending-header .view-all-btn i {
+  transition: transform 0.3s ease;
+}
+
+.trending-header .view-all-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 0, 128, 0.4);
+}
+
+.trending-header .view-all-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Loading & Empty States */
+.trending-loading,
+.trending-empty {
+  text-align: center;
+  padding: 80px 20px;
+  font-size: 1.2rem;
+  color: #ff8c00;
+  font-weight: 500;
+}
+
+/* Carousel Wrapper */
+.trending-carousel-wrapper {
+  position: relative;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 70px;
+}
+
+.trending-carousel {
+  overflow: hidden;
+}
+
+.trending-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.trending-slide {
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 25px;
+}
+
+/* Trending Card */
+.trending-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.trending-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(255, 0, 128, 0.3);
+  border-color: rgba(255, 0, 128, 0.5);
+}
+
+.trending-image-container {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.trending-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.trending-card:hover .trending-image {
+  transform: scale(1.1);
+}
+
+.trending-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: linear-gradient(135deg, #ff0080, #ff8c00);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 128, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 128, 0);
+  }
+}
+
+.trending-badge i {
+  font-size: 0.8rem;
+  animation: flicker 1.5s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.trending-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.trending-card:hover .trending-overlay {
+  opacity: 1;
+}
+
+.trending-overlay .quick-shop-btn {
+  padding: 12px 30px;
+  background: linear-gradient(90deg, #ff0080, #ff8c00);
+  color: white;
+  border: 2px solid white;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trending-overlay .quick-shop-btn:hover {
+  background: transparent;
+  color: white;
+}
+
+.trending-wishlist-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trending-wishlist-btn:hover {
+  background: white;
+  color: #ff0080;
+}
+
+.trending-wishlist-btn i {
+  transition: transform 0.3s ease;
+}
+
+.trending-wishlist-btn:hover i {
+  transform: scale(1.2);
+}
+
+/* Trending Info */
+.trending-info {
+  padding: 20px 15px;
+}
+
+.trending-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-body);
+}
+
+.trending-category {
+  font-size: 0.85rem;
+  color: #ff8c00;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.trending-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trending-price .current-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff0080;
+}
+
+.trending-price .original-price {
+  font-size: 1rem;
+  color: #888888;
+  text-decoration: line-through;
+}
+
+/* Carousel Navigation */
+.trending-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 0, 128, 0.5);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  color: #ffffff;
+  font-size: 1.3rem;
+  backdrop-filter: blur(10px);
+}
+
+.trending-carousel-btn:hover {
+  background: linear-gradient(90deg, #ff0080, #ff8c00);
+  border-color: transparent;
+  transform: translateY(-50%) scale(1.15);
+}
+
+.trending-carousel-btn.prev-btn {
+  left: 10px;
+}
+
+.trending-carousel-btn.next-btn {
+  right: 10px;
+}
+
+/* Carousel Indicators */
+.trending-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.trending-indicators .indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.trending-indicators .indicator.active {
+  background: linear-gradient(90deg, #ff0080, #ff8c00);
+  width: 35px;
+  border-radius: 5px;
+}
+
+.trending-indicators .indicator:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .trending-slide {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .trending-slide {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .trending-image-container {
+    height: 250px;
+  }
+
+  .trending-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .trending-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .trending-header .header-content {
+    text-align: center;
+  }
+
+  .trending-slide {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .trending-image-container {
+    height: 220px;
+  }
+
+  .trending-title {
+    font-size: 2rem;
+  }
+
+  .trending-carousel-wrapper {
+    padding: 0 55px;
+  }
+
+  .trending-carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trending-slide {
+    grid-template-columns: 1fr;
+  }
+
+  .trending-image-container {
+    height: 280px;
+  }
+
+  .trending-container {
+    padding: 0 20px;
+  }
+
+  .trending-carousel-wrapper {
+    padding: 0 45px;
+  }
+}

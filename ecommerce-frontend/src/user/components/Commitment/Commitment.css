@@ -1,0 +1,169 @@
+   /* Sustainability Section */
+        .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 100;
+    letter-spacing: 0.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+        .sustainability {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        .sustainability .section-header h2 {
+            color: #1a1a1a;
+        }
+
+        .sustainability .section-header p {
+            color: #666666;
+        }
+
+        .sustainability-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .sustainability-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .sustainability-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(196, 134, 47, 0.2);
+            border-color: #C4862F;
+        }
+
+        .sustainability-icon {
+            font-size: 3rem;
+            color: #C4862F;
+            margin-bottom: 20px;
+        }
+
+        .sustainability-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .sustainability-card p {
+            color: #555555;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sustainability {
+                padding: 80px 40px;
+            }
+
+            .section-header {
+                margin-bottom: 60px;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .sustainability-content {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+            }
+
+            .sustainability-card {
+                padding: 30px;
+            }
+
+            .sustainability-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sustainability {
+                padding: 60px 30px;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 0.15rem;
+            }
+
+            .sustainability-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin-top: 40px;
+            }
+
+            .sustainability-card {
+                padding: 25px;
+            }
+
+            .sustainability-card h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sustainability {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                letter-spacing: 0.1rem;
+            }
+
+            .section-title::after {
+                width: 80px;
+            }
+
+            .sustainability-card {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .sustainability-icon {
+                font-size: 2rem;
+            }
+
+            .sustainability-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .sustainability-card p {
+                font-size: 0.95rem;
+            }
+        }

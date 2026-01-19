@@ -1,0 +1,111 @@
+.cms-page-container {
+  min-height: 60vh;
+  padding: 100px 20px 60px;
+  background: #f8f9fa;
+}
+
+.cms-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cms-page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #d4af37;
+}
+
+.cms-page-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.cms-page-body h1,
+.cms-page-body h2,
+.cms-page-body h3,
+.cms-page-body h4 {
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.cms-page-body h1 {
+  font-size: 2rem;
+}
+
+.cms-page-body h2 {
+  font-size: 1.75rem;
+}
+
+.cms-page-body h3 {
+  font-size: 1.5rem;
+}
+
+.cms-page-body p {
+  margin-bottom: 20px;
+}
+
+.cms-page-body ul,
+.cms-page-body ol {
+  margin: 20px 0;
+  padding-left: 30px;
+}
+
+.cms-page-body li {
+  margin-bottom: 10px;
+}
+
+.cms-page-body a {
+  color: #d4af37;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.cms-page-body a:hover {
+  color: #e91e63;
+}
+
+.loading-spinner,
+.error-message {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.error-message h1 {
+  font-size: 3rem;
+  color: #e91e63;
+  margin-bottom: 20px;
+}
+
+.error-message p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cms-page-container {
+    padding: 80px 15px 40px;
+  }
+
+  .cms-page-content {
+    padding: 25px;
+  }
+
+  .cms-page-title {
+    font-size: 1.8rem;
+  }
+
+  .cms-page-body {
+    font-size: 1rem;
+  }
+}

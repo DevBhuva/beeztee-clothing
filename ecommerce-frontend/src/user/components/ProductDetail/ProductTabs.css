@@ -1,0 +1,234 @@
+/* ProductTabs.css */
+
+.product-tabs {
+  margin: 60px 0;
+}
+
+.tabs-header {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e0e0e0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-header::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  padding: 16px 32px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #666;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  bottom: -2px;
+}
+
+.tab-button:hover {
+  color: #2e7d32;
+  background: #f5f5f5;
+}
+
+.tab-button.active {
+  color: #2e7d32;
+  border-bottom-color: #2e7d32;
+}
+
+.tab-button i {
+  font-size: 18px;
+}
+
+.tabs-content {
+  padding: 32px 0;
+}
+
+.tab-panel {
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Description Tab */
+.tab-description {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+}
+
+.tab-description p {
+  margin-bottom: 16px;
+}
+
+.tab-description h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 24px 0 12px;
+}
+
+.tab-description ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.tab-description li {
+  margin-bottom: 8px;
+}
+
+/* Specifications Tab */
+.specifications-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.specifications-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.specifications-table tr:last-child {
+  border-bottom: none;
+}
+
+.specifications-table td {
+  padding: 16px;
+  font-size: 15px;
+}
+
+.specifications-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 30%;
+}
+
+.specifications-table td:last-child {
+  color: #333;
+}
+
+/* Care Instructions */
+.care-instructions {
+  display: grid;
+  gap: 16px;
+}
+
+.care-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.care-icon {
+  width: 48px;
+  height: 48px;
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.care-content h4 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.care-content p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Shipping & Returns */
+.shipping-returns {
+  display: grid;
+  gap: 24px;
+}
+
+.shipping-section {
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.shipping-section h4 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shipping-section h4 i {
+  color: #2e7d32;
+  font-size: 20px;
+}
+
+.shipping-section p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.shipping-section ul {
+  margin-left: 20px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.7;
+}
+
+.shipping-section li {
+  margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .tabs-content {
+    padding: 24px 0;
+  }
+
+  .specifications-table td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+
+  .specifications-table td:first-child {
+    width: 40%;
+  }
+
+  .care-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

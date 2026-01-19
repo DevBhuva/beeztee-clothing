@@ -1,0 +1,211 @@
+      /* Sale Section */
+        .sale {
+            padding: 100px 50px;
+            background: linear-gradient(135deg, #fff3e0 0%, #fce4ec 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sale-banner {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sale-title {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 0.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #e91e63, #C4862F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sale-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #333333;
+            font-weight: 500;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #C4862F;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sale-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            opacity: 0.5;
+            margin-right: 10px;
+        }
+
+        .sale-price {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sale {
+                padding: 80px 40px;
+            }
+
+            .sale-title {
+                font-size: 3.2rem;
+            }
+
+            .sale-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .countdown {
+                gap: 20px;
+            }
+
+            .countdown-item {
+                padding: 18px 25px;
+            }
+
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+
+            .sale-products {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sale {
+                padding: 60px 30px;
+            }
+
+            .sale-title {
+                font-size: 2.5rem;
+                letter-spacing: 0.15rem;
+            }
+
+            .sale-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .countdown {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .countdown-item {
+                padding: 15px 20px;
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .countdown-label {
+                font-size: 0.8rem;
+            }
+
+            .sale-products {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sale {
+                padding: 40px 20px;
+            }
+
+            .sale-title {
+                font-size: 2rem;
+                letter-spacing: 0.1rem;
+            }
+
+            .sale-subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .countdown-item {
+                padding: 12px 15px;
+                min-width: 100px;
+            }
+
+            .countdown-number {
+                font-size: 1.6rem;
+            }
+
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+
+            .sale-products {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .sale-badge {
+                top: 15px;
+                right: 15px;
+                padding: 4px 12px;
+                font-size: 0.75rem;
+            }
+
+            .sale-price {
+                font-size: 1.3rem;
+            }
+        }
