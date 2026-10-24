@@ -1,40 +1,38 @@
-/* SizeChart.css */
+/* SizeChart — Beeztee */
 
 .size-chart-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.7);
+  inset: 0;
+  background: rgba(18, 16, 14, 0.72);
   z-index: 9998;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.2s;
+  padding: 1.25rem;
+  animation: sizeChartFade 0.2s ease;
 }
 
-@keyframes fadeIn {
+@keyframes sizeChartFade {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 .size-chart-content {
   background: #fff;
-  border-radius: 12px;
+  border: 1px solid var(--bh-line, rgba(26, 22, 18, 0.12));
+  border-radius: 0;
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  animation: slideUp 0.3s;
+  animation: sizeChartUp 0.28s ease;
 }
 
-@keyframes slideUp {
+@keyframes sizeChartUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -46,8 +44,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 1.35rem 1.5rem;
+  border-bottom: 1px solid var(--bh-line, rgba(26, 22, 18, 0.12));
   position: sticky;
   top: 0;
   background: #fff;
@@ -55,78 +53,81 @@
 }
 
 .size-chart-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
+  margin: 0;
+  font-family: var(--bh-font-display, "Cormorant Garamond", Georgia, serif);
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: var(--bh-ink, #1a1612);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.65rem;
 }
 
 .size-chart-title i {
-  color: #2e7d32;
+  color: var(--bh-accent, #c4862f);
+  font-size: 1rem;
 }
 
 .size-chart-close {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: #f5f5f5;
-  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--bh-line, rgba(26, 22, 18, 0.12));
+  background: var(--bh-paper, #f7f3ec);
+  border-radius: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  color: #666;
-  transition: all 0.2s;
+  font-size: 1.1rem;
+  color: var(--bh-muted, #6f675e);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .size-chart-close:hover {
-  background: #e0e0e0;
-  color: #333;
-  transform: rotate(90deg);
+  color: var(--bh-ink, #1a1612);
+  border-color: var(--bh-accent, #c4862f);
 }
 
 .size-chart-body {
-  padding: 24px;
+  padding: 1.5rem;
 }
 
 .size-table-container {
   overflow-x: auto;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .size-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-family: var(--bh-font-body, "Outfit", sans-serif);
+  font-size: 0.88rem;
 }
 
 .size-table thead {
-  background: #f5f5f5;
+  background: var(--bh-soft, #efe9df);
 }
 
 .size-table th {
-  padding: 12px;
+  padding: 0.75rem;
   text-align: left;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e0e0e0;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--bh-ink, #1a1612);
+  border-bottom: 1px solid var(--bh-line, rgba(26, 22, 18, 0.12));
 }
 
-.size-table th:first-child {
-  border-radius: 8px 0 0 0;
-}
-
+.size-table th:first-child,
 .size-table th:last-child {
-  border-radius: 0 8px 0 0;
+  border-radius: 0;
 }
 
 .size-table td {
-  padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
-  color: #666;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--bh-line, rgba(26, 22, 18, 0.12));
+  color: var(--bh-muted, #6f675e);
 }
 
 .size-table tbody tr:last-child td {
@@ -134,108 +135,72 @@
 }
 
 .size-table tbody tr:hover {
-  background: #f5f5f5;
+  background: var(--bh-paper, #f7f3ec);
 }
 
 .measurement-guide {
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
+  background: var(--bh-soft, #efe9df);
+  padding: 1.25rem;
+  border-radius: 0;
 }
 
 .measurement-guide h4 {
-  font-size: 16px;
+  margin: 0 0 0.75rem;
+  font-family: var(--bh-font-display, "Cormorant Garamond", Georgia, serif);
+  font-size: 1.15rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 12px;
+  color: var(--bh-ink, #1a1612);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .measurement-guide h4 i {
-  color: #2e7d32;
+  color: var(--bh-accent, #c4862f);
+  font-size: 0.9rem;
 }
 
 .measurement-guide ul {
   list-style: none;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .measurement-guide li {
-  font-size: 14px;
-  color: #666;
+  font-size: 0.88rem;
+  color: var(--bh-muted, #6f675e);
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  line-height: 1.6;
+  gap: 0.5rem;
+  line-height: 1.55;
 }
 
 .measurement-guide li i {
-  color: #2e7d32;
-  margin-top: 2px;
+  color: var(--bh-accent, #c4862f);
+  margin-top: 0.15rem;
   flex-shrink: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .size-chart-content {
-    max-width: 100%;
-    max-height: 95vh;
-  }
-
-  .size-chart-header {
-    padding: 20px;
+  .size-chart-header,
+  .size-chart-body {
+    padding: 1.15rem;
   }
 
   .size-chart-title {
-    font-size: 20px;
-  }
-
-  .size-chart-body {
-    padding: 20px;
-  }
-
-  .size-table {
-    font-size: 13px;
-  }
-
-  .size-table th,
-  .size-table td {
-    padding: 10px 8px;
+    font-size: 1.35rem;
   }
 }
 
 @media (max-width: 480px) {
   .size-chart-modal {
     padding: 0;
+    align-items: flex-end;
   }
 
   .size-chart-content {
-    border-radius: 12px 12px 0 0;
-    max-height: 90vh;
-  }
-
-  .size-chart-header {
-    padding: 16px;
-  }
-
-  .size-chart-title {
-    font-size: 18px;
-  }
-
-  .size-chart-body {
-    padding: 16px;
-  }
-
-  .size-table {
-    font-size: 12px;
-  }
-
-  .size-table th,
-  .size-table td {
-    padding: 8px 6px;
+    max-height: 92vh;
   }
 }

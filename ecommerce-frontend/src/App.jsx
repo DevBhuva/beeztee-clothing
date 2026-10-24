@@ -35,16 +35,16 @@ function AppContent() {
       metaKeywords.content = settings.metaKeywords;
     }
 
-    // Update favicon
-    if (settings?.faviconUrl) {
-      let favicon = document.querySelector('link[rel="icon"]');
-      if (!favicon) {
-        favicon = document.createElement('link');
-        favicon.rel = 'icon';
-        document.head.appendChild(favicon);
-      }
-      favicon.href = settings.faviconUrl;
+    // Update favicon — logo is the default when CMS has none
+    const faviconHref = settings?.faviconUrl || '/logo.png';
+    let favicon = document.querySelector('link[rel="icon"]');
+    if (!favicon) {
+      favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      document.head.appendChild(favicon);
     }
+    favicon.type = faviconHref.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+    favicon.href = faviconHref;
   }, [settings]);
 
   return (

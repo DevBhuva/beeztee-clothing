@@ -1,0 +1,224 @@
+/* Shared storefront utilities for all customer pages */
+
+.bh-page {
+  min-height: 100vh;
+  background: var(--bh-paper);
+  color: var(--bh-ink);
+  font-family: var(--bh-font-body);
+}
+
+.bh-page a:not(.bh-btn):not(.nav-links a):not(.logo) {
+  text-decoration: none;
+}
+
+.bh-page-banner {
+  padding: 7.5rem 1.5rem 3rem;
+  background:
+    linear-gradient(180deg, rgba(18, 16, 14, 0.82), rgba(18, 16, 14, 0.55)),
+    url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2000&q=80")
+      center/cover no-repeat;
+  color: var(--bh-paper);
+}
+
+.bh-page-banner--sale {
+  background:
+    linear-gradient(180deg, rgba(18, 16, 14, 0.8), rgba(18, 16, 14, 0.5)),
+    url("https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?auto=format&fit=crop&w=2000&q=80")
+      center/cover no-repeat;
+}
+
+.bh-page-banner__inner {
+  max-width: var(--bh-max);
+  margin: 0 auto;
+}
+
+.bh-page-banner__eyebrow {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bh-accent);
+}
+
+.bh-page-banner__title {
+  margin: 0;
+  font-family: var(--bh-font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+}
+
+.bh-page-banner__text {
+  margin: 0.85rem 0 0;
+  max-width: 34rem;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.65;
+  word-spacing: 0.08em;
+  color: rgba(247, 243, 236, 0.78);
+}
+
+.bh-page-main {
+  max-width: var(--bh-max);
+  margin: 0 auto;
+  padding: 2.75rem 1.5rem 5rem;
+}
+
+.bh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.85rem;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: var(--bh-accent);
+  color: var(--bh-ink);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.bh-btn:hover {
+  background: var(--bh-accent-hover);
+  color: var(--bh-ink);
+  transform: translateY(-1px);
+}
+
+.bh-btn--ghost {
+  background: transparent;
+  border-color: rgba(26, 22, 18, 0.2);
+  color: var(--bh-ink);
+}
+
+.bh-btn--ghost:hover {
+  border-color: var(--bh-ink);
+  background: transparent;
+}
+
+.bh-btn--dark {
+  background: var(--bh-ink);
+  color: var(--bh-paper);
+}
+
+.bh-btn--dark:hover {
+  background: #2a241e;
+  color: var(--bh-paper);
+}
+
+.bh-btn--full {
+  width: 100%;
+}
+
+.bh-input,
+.bh-select,
+.bh-textarea {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--bh-line);
+  border-radius: 0;
+  background: #fff;
+  color: var(--bh-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.bh-textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.bh-input:focus,
+.bh-select:focus,
+.bh-textarea:focus {
+  border-color: var(--bh-accent);
+}
+
+.bh-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bh-muted);
+}
+
+.bh-card {
+  background: #fff;
+  border: 1px solid var(--bh-line);
+  padding: 1.5rem;
+}
+
+.bh-empty-state {
+  padding: 4rem 1.25rem;
+  text-align: center;
+  color: var(--bh-muted);
+}
+
+.bh-empty-state i {
+  font-size: 2rem;
+  color: var(--bh-accent);
+  margin-bottom: 1rem;
+}
+
+.bh-empty-state h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--bh-font-display);
+  font-size: 1.8rem;
+  color: var(--bh-ink);
+}
+
+.bh-loading-state {
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--bh-muted);
+}
+
+.bh-loading-state i {
+  font-size: 1.5rem;
+  color: var(--bh-accent);
+  margin-bottom: 0.75rem;
+}
+
+/* Soften Bootstrap link blue across storefront pages */
+.bh-page a,
+.shop-page-wrapper a,
+.cart-page a,
+.checkout-page a,
+.wishlist-page a,
+.profile-page a,
+.orders-page a,
+.order-confirmation-page a,
+.login-page a,
+.register-page a,
+.about-us-page a,
+.contact-page a,
+.cms-page a,
+.product-detail-page a {
+  text-decoration: none;
+}
+
+.bh-page a:hover,
+.shop-page-wrapper a:hover,
+.cart-page a:hover,
+.checkout-page a:hover,
+.wishlist-page a:hover,
+.profile-page a:hover,
+.orders-page a:hover,
+.order-confirmation-page a:hover,
+.login-page a:hover,
+.register-page a:hover,
+.about-us-page a:hover,
+.contact-page a:hover,
+.cms-page a:hover,
+.product-detail-page a:hover {
+  color: var(--bh-accent);
+}

@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Frontend build and cache
+ecommerce-frontend/dist/
+ecommerce-frontend/dist-ssr/
+ecommerce-frontend/dist.zip
+ecommerce-frontend/build/
+ecommerce-frontend/.vite/
+ecommerce-frontend/.cache/
+ecommerce-frontend/coverage/
+*.local
+
+# Backend build, logs, and uploads
+ecommerce-backend/dist/
+ecommerce-backend/build/
+ecommerce-backend/coverage/
+ecommerce-backend/logs/
+ecommerce-backend/tmp/
+ecommerce-backend/temp/
+ecommerce-backend/uploads/
+!ecommerce-backend/uploads/.gitkeep
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+
+# Misc
+*.tsbuildinfo
+.eslintcache
+.stylelintcache

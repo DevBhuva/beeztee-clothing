@@ -1,0 +1,116 @@
+.bh-journal {
+  background: #f4efe6;
+  color: #1a1612;
+  text-align: center;
+  padding: 7.5rem 1.5rem 7rem;
+}
+
+.bh-journal__eyebrow {
+  margin: 0 0 1.35rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #8a7f72;
+}
+
+.bh-journal__title {
+  margin: 0 auto 1rem;
+  max-width: 18ch;
+  font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: #1a1612;
+}
+
+.bh-journal__text {
+  margin: 0 auto 3.25rem;
+  max-width: 34rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #6f675e;
+}
+
+.bh-journal__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 2.5rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.bh-journal__input {
+  width: 100%;
+  padding: 0.35rem 0 0.7rem;
+  border: none;
+  border-bottom: 1px solid rgba(26, 22, 18, 0.28);
+  background: transparent;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.98rem;
+  color: #1a1612;
+  outline: none;
+}
+
+.bh-journal__input::placeholder {
+  color: #9a9186;
+}
+
+.bh-journal__input:focus {
+  border-bottom-color: #1a1612;
+}
+
+.bh-journal__submit {
+  padding: 0.35rem 0 0.7rem;
+  border: none;
+  background: transparent;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #1a1612;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bh-journal__submit:hover {
+  opacity: 0.65;
+}
+
+.bh-journal__status {
+  margin: 1.25rem 0 0;
+  font-size: 0.88rem;
+  color: #6f675e;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 600px) {
+  .bh-journal {
+    padding: 5.5rem 1.25rem 5rem;
+  }
+
+  .bh-journal__form {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .bh-journal__submit {
+    justify-self: start;
+  }
+}

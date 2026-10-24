@@ -17,6 +17,7 @@ import Register from '../user/pages/Auth/Register';
 import ContactUs from '../user/pages/Contact/ContactUs';
 import AboutUs from '../user/pages/About/AboutUs';
 import CmsPage from '../user/pages/CmsPage/CmsPage';
+import Sale from '../user/pages/Sale/Sale';
 
 
 
@@ -54,6 +55,7 @@ export default function AppRoutes() {
         {/* Frontend Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/sale" element={<Sale />} />
         <Route path="/product/:slug" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />

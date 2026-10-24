@@ -6,7 +6,6 @@ export const adminLogin = async (email, password) => {
     const response = await api.post('/auth/login/admin', { email, password });
     const { token, user } = response.data;
     
-    // Store token and user data
     localStorage.setItem('authToken', token);
     localStorage.setItem('user', JSON.stringify(user));
     
@@ -19,7 +18,42 @@ export const adminLogin = async (email, password) => {
   }
 };
 
-// Customer Authentication
+// Customer Join — step 1: send email OTP
+export const sendRegisterOTP = async (name, email, phone) => {
+  try {
+    const response = await api.post('/auth/register/customer/send-otp', {
+      name,
+      email,
+      phone,
+    });
+    return { success: true, message: response.data.message, email: response.data.email };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || 'Failed to send OTP. Please try again.',
+    };
+  }
+};
+
+// Customer Join — step 2: verify email OTP (account activates only if OTP matches)
+export const verifyRegisterOTP = async (email, otp) => {
+  try {
+    const response = await api.post('/auth/register/customer/verify-otp', { email, otp });
+    const { token, user } = response.data;
+
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    return { success: true, user, token, message: response.data.message };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || 'OTP verification failed. Please try again.',
+    };
+  }
+};
+
+/** @deprecated Direct register without OTP — storefront uses sendRegisterOTP + verifyRegisterOTP */
 export const customerRegister = async (name, email, phone) => {
   try {
     const response = await api.post('/auth/register/customer', { name, email, phone });
@@ -32,9 +66,10 @@ export const customerRegister = async (name, email, phone) => {
   }
 };
 
-export const sendOTP = async (phone) => {
+// Customer Login — email OTP only
+export const sendOTP = async (email) => {
   try {
-    const response = await api.post('/auth/login/customer/send-otp', { phone });
+    const response = await api.post('/auth/login/customer/send-otp', { email });
     return { success: true, message: response.data.message };
   } catch (error) {
     return {
@@ -44,12 +79,11 @@ export const sendOTP = async (phone) => {
   }
 };
 
-export const verifyOTP = async (phone, otp) => {
+export const verifyOTP = async (email, otp) => {
   try {
-    const response = await api.post('/auth/login/customer/verify-otp', { phone, otp });
+    const response = await api.post('/auth/login/customer/verify-otp', { email, otp });
     const { token, user } = response.data;
     
-    // Store token and user data
     localStorage.setItem('authToken', token);
     localStorage.setItem('user', JSON.stringify(user));
     
@@ -62,13 +96,11 @@ export const verifyOTP = async (phone, otp) => {
   }
 };
 
-// Logout
 export const logout = () => {
   localStorage.removeItem('authToken');
   localStorage.removeItem('user');
 };
 
-// Get current user
 export const getCurrentUser = () => {
   const userStr = localStorage.getItem('user');
   if (userStr) {
@@ -81,18 +113,15 @@ export const getCurrentUser = () => {
   return null;
 };
 
-// Check if user is authenticated
 export const isAuthenticated = () => {
   return !!localStorage.getItem('authToken');
 };
 
-// Check if user is admin
 export const isAdmin = () => {
   const user = getCurrentUser();
   return user && user.role === 'ADMIN';
 };
 
-// Check if user is customer
 export const isCustomer = () => {
   const user = getCurrentUser();
   return user && user.role === 'CUSTOMER';

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import FilterSidebar from '../../components/Filters/FilterSidebar';
 import FilterChips from '../../components/Filters/FilterChips';
 import MobileFilters from '../../components/Filters/MobileFilters';
 import { FilterProvider, useFilters } from '../../../context/FilterContext';
@@ -12,11 +11,21 @@ import { useAuth } from '../../../context/AuthContext';
 import { useSiteSettings } from '../../../context/SiteSettingsContext';
 import productService from '../../../services/productService';
 import filterService from '../../../services/filterService';
+import { getPrimaryProductImage } from '../../../utils/productImage';
 import { toast } from 'react-toastify';
 import './Shop.css';
 
 const ShopContent = () => {
-  const { filters, setAvailableFilters, setSorting, setPage } = useFilters();
+  const {
+    filters,
+    availableFilters,
+    setAvailableFilters,
+    setSorting,
+    setPage,
+    toggleFilter,
+    getActiveFilterCount,
+  } = useFilters();
+  const activeFilterCount = getActiveFilterCount();
   const { addToCart } = useCart();
   const { wishlistItems, toggleWishlist, isInWishlist } = useWishlist();
   const { isAuthenticated } = useAuth();
@@ -99,17 +108,7 @@ const ShopContent = () => {
   };
 
   // Get product image URL
-  const getProductImageUrl = (product) => {
-    if (product.ProductImages && product.ProductImages.length > 0) {
-      const primaryImage = product.ProductImages.find(img => img.isPrimary) || product.ProductImages[0];
-      return `http://localhost:3000${primaryImage.imagePath}`;
-    }
-    if (product.images && product.images.length > 0) {
-      const primaryImage = product.images.find(img => img.isPrimary) || product.images[0];
-      return `http://localhost:3000${primaryImage.imagePath}`;
-    }
-    return `https://picsum.photos/seed/${product.id}/400/500.jpg`;
-  };
+  const getProductImageUrl = (product) => getPrimaryProductImage(product);
 
   // Calculate discount percentage
   const calculateDiscount = (basePrice, salePrice) => {
@@ -130,50 +129,52 @@ const ShopContent = () => {
   return (
     <>
       <Header />
-      <div className="shop-page-wrapper">
-        
-        {/* Hero Section */}
-        <section className="hero">
-          <div className="hero-bg"></div>
-          <div className="fashion-element fashion-element-1"></div>
-          <div className="fashion-element fashion-element-2"></div>
-          <div className="fashion-element fashion-element-3"></div>
-          <div className="hero-text">
-            <h1 className="hero-title">Elevate Your Style</h1>
-            <p className="hero-subtitle">Discover our exclusive collection of premium fashion pieces designed to make you stand out</p>
-            <a href="#shop" className="hero-btn">Shop Now</a>
+      <div className="shop-page-wrapper bh-page">
+        <section className="bh-page-banner">
+          <div className="bh-page-banner__inner">
+            <p className="bh-page-banner__eyebrow">Collection</p>
+            <h1 className="bh-page-banner__title">Shop</h1>
+            <p className="bh-page-banner__text">
+              Explore curated pieces designed for modern elegance and everyday polish.
+            </p>
           </div>
         </section>
 
         {/* Main Shop Section */}
         <section className="shop-main-section" id="shop">
           <div className="shop-container">
-            <div className="shop-layout">
-              
-              {/* Desktop Filter Sidebar */}
-              <aside className="shop-sidebar">
-                <FilterSidebar />
-              </aside>
-
-              {/* Products Section */}
-              <div className="shop-content">
-                
-                {/* Filter Chips */}
-                <FilterChips />
-
-                {/* Toolbar */}
+            <div className="shop-content">
                 <div className="shop-toolbar">
                   <div className="shop-toolbar-left">
-                    {/* Mobile Filter Button */}
-                    <button 
-                      className="mobile-filter-btn"
+                    <button
+                      type="button"
+                      className="shop-filter-btn"
                       onClick={() => setMobileFiltersOpen(true)}
                     >
-                      <i className="fas fa-filter"></i>
+                      <i className="fas fa-sliders-h"></i>
                       Filters
+                      {activeFilterCount > 0 && (
+                        <span className="shop-filter-count">{activeFilterCount}</span>
+                      )}
                     </button>
-                    
-                    {/* Product Count */}
+
+                    <div className="shop-category-chips">
+                      {availableFilters.categories?.map((category) => {
+                        const id = category.id.toString();
+                        const active = filters.categories.includes(id);
+                        return (
+                          <button
+                            key={category.id}
+                            type="button"
+                            className={`shop-cat-chip${active ? ' active' : ''}`}
+                            onClick={() => toggleFilter('categories', id)}
+                          >
+                            {category.name === 'Men' ? 'Him' : category.name === 'Women' ? 'Her' : category.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+
                     {!loading && (
                       <span className="product-count">
                         {pagination.total || 0} Product{pagination.total !== 1 ? 's' : ''}
@@ -183,7 +184,7 @@ const ShopContent = () => {
 
                   {/* Sort Dropdown */}
                   <div className="shop-toolbar-right">
-                    <label htmlFor="sortSelect" className="sort-label">Sort by:</label>
+                    <label htmlFor="sortSelect" className="sort-label">Sort by</label>
                     <select 
                       id="sortSelect"
                       className="sort-select"
@@ -202,9 +203,11 @@ const ShopContent = () => {
                   </div>
                 </div>
 
+                <FilterChips />
+
                 {/* Loading State */}
                 {loading && (
-                  <div className="loading-state">
+                  <div className="bh-loading-state">
                     <i className="fas fa-spinner fa-spin"></i>
                     <p>Loading products...</p>
                   </div>
@@ -212,15 +215,16 @@ const ShopContent = () => {
 
                 {/* Error State */}
                 {error && !loading && (
-                  <div className="error-state">
+                  <div className="bh-empty-state">
                     <i className="fas fa-exclamation-circle"></i>
+                    <h3>Something went wrong</h3>
                     <p>{error}</p>
                   </div>
                 )}
 
                 {/* Empty State */}
                 {!loading && !error && products.length === 0 && (
-                  <div className="empty-state">
+                  <div className="bh-empty-state">
                     <i className="fas fa-shopping-bag"></i>
                     <h3>No products found</h3>
                     <p>Try adjusting your filters to see more results</p>
@@ -241,13 +245,16 @@ const ShopContent = () => {
                               <div className="product-image-container">
                                 {discount > 0 && (
                                   <div className="product-badge discount-badge">
-                                    {discount}% OFF
+                                    -{discount}%
                                   </div>
                                 )}
                                 <img 
                                   src={getProductImageUrl(product)} 
                                   alt={product.name} 
-                                  className="product-image" 
+                                  className="product-image"
+                                  onError={(e) => {
+                                    e.currentTarget.src = `https://images.unsplash.com/photo-1523381216130-8b3f99a87a6d?auto=format&fit=crop&w=800&q=80&sig=${product.id}`;
+                                  }}
                                 />
                                 <div className="product-overlay">
                                   <div className="product-actions">
@@ -258,16 +265,12 @@ const ShopContent = () => {
                                     >
                                       <i className={`${productInWishlist ? 'fas' : 'far'} fa-heart`}></i>
                                     </button>
-                                    <button className="product-action-btn" title="Quick view">
-                                      <i className="fas fa-eye"></i>
-                                    </button>
                                   </div>
                                   <button 
                                     className="product-quick-view add-to-cart"
                                     onClick={(e) => handleAddToCart(e, product)}
                                   >
-                                    <i className="fas fa-shopping-cart"></i>
-                                    Add to Cart
+                                    Bag it
                                   </button>
                                 </div>
                               </div>
@@ -277,16 +280,6 @@ const ShopContent = () => {
                                 <div className="product-category">
                                   {product.category?.name || product.Category?.name || 'Fashion'}
                                 </div>
-                                {product.brand?.name || product.Brand?.name ? (
-                                  <div className="product-brand">
-                                    {product.brand?.name || product.Brand?.name}
-                                  </div>
-                                ) : null}
-                                {product.isNewArrival && (
-                                  <span className="product-badge new-badge">
-                                    NEW
-                                  </span>
-                                )}
                               </div>
                               <Link to={`/product/${product.slug}`}>
                                 <h3 className="product-name">{product.name}</h3>
@@ -294,24 +287,9 @@ const ShopContent = () => {
                               <div className="product-price">
                                 <span className="price-current">{settings?.currencySymbol || '₹'}{product.salePrice || product.basePrice}</span>
                                 {product.salePrice && product.salePrice < product.basePrice && (
-                                  <>
-                                    <span className="price-original">{settings?.currencySymbol || '₹'}{product.basePrice}</span>
-                                  </>
+                                  <span className="price-original">{settings?.currencySymbol || '₹'}{product.basePrice}</span>
                                 )}
                               </div>
-                              {product.averageRating > 0 && (
-                                <div className="product-rating">
-                                  <div className="rating-stars">
-                                    {[...Array(5)].map((_, i) => (
-                                      <i 
-                                        key={i} 
-                                        className={`fas fa-star ${i < Math.floor(product.averageRating) ? 'filled' : ''}`}
-                                      ></i>
-                                    ))}
-                                  </div>
-                                  <span className="rating-count">({product.reviewCount || 0})</span>
-                                </div>
-                              )}
                             </div>
                           </div>
                         );
@@ -332,12 +310,10 @@ const ShopContent = () => {
 
                         <div className="pagination-pages">
                           {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(pageNum => {
-                            // Show first page, last page, current page, and pages around current
                             const showPage = pageNum === 1 || 
                                            pageNum === pagination.totalPages || 
                                            Math.abs(pageNum - filters.page) <= 1;
                             
-                            // Show ellipsis
                             if (!showPage && (pageNum === filters.page - 2 || pageNum === filters.page + 2)) {
                               return <span key={pageNum} className="pagination-ellipsis">...</span>;
                             }
@@ -368,12 +344,10 @@ const ShopContent = () => {
                     )}
                   </>
                 )}
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Mobile Filters */}
         <MobileFilters 
           isOpen={mobileFiltersOpen}
           onClose={() => setMobileFiltersOpen(false)}

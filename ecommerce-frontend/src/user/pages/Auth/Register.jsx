@@ -1,52 +1,53 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { customerRegister } from '../../../services/authService';
+import { sendRegisterOTP, verifyRegisterOTP } from '../../../services/authService';
+import { useAuth } from '../../../context/AuthContext';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './Register.css';
 
 function Register() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
   });
+  const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [touched, setTouched] = useState({ name: false, email: false, phone: false });
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    phone: false,
+    otp: false,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === 'phone') {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/\D/g, '')
+        [name]: value.replace(/\D/g, ''),
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
     setError('');
   };
 
   const handleBlur = (field) => {
-    setTouched(prev => ({ ...prev, [field]: true }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const validatePhone = (phone) => {
-    const phoneRegex = /^[6-9]\d{9}$/;
-    return phoneRegex.test(phone);
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const validatePhone = (phone) => /^[6-9]\d{9}$/.test(phone);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const getNameError = () => {
     if (!touched.name) return '';
@@ -70,35 +71,82 @@ function Register() {
     return '';
   };
 
-  const handleSubmit = async (e) => {
+  const getOTPError = () => {
+    if (!touched.otp) return '';
+    if (!otp) return 'OTP is required';
+    if (otp.length !== 6) return 'OTP must be 6 digits';
+    return '';
+  };
+
+  const handleSendOTP = async (e) => {
     e.preventDefault();
-    setTouched({ name: true, email: true, phone: true });
+    setTouched({ name: true, email: true, phone: true, otp: false });
     setError('');
 
-    const nameError = getNameError();
-    const emailError = getEmailError();
-    const phoneError = getPhoneError();
+    const nameOk = formData.name.trim().length >= 2;
+    const emailOk = validateEmail(formData.email);
+    const phoneOk = validatePhone(formData.phone);
 
-    if (nameError || emailError || phoneError) {
-      setError('Please fix all errors before submitting');
+    if (!nameOk || !emailOk || !phoneOk) {
+      setError('Please fix all errors before continuing');
       return;
     }
 
     setLoading(true);
-
     try {
-      const result = await customerRegister(formData.name, formData.email, formData.phone);
-      
+      const result = await sendRegisterOTP(formData.name, formData.email, formData.phone);
       if (result.success) {
-        setSuccess(true);
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        setStep(2);
+        setOtp('');
+        setError('');
       } else {
         setError(result.message);
       }
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError('Failed to send OTP. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setTouched((prev) => ({ ...prev, otp: true }));
+    setError('');
+
+    if (!otp || otp.length !== 6) {
+      setError('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await verifyRegisterOTP(formData.email, otp);
+      if (result.success) {
+        login(result.user);
+        navigate('/');
+      } else {
+        setError(result.message);
+      }
+    } catch {
+      setError('OTP verification failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const result = await sendRegisterOTP(formData.name, formData.email, formData.phone);
+      if (result.success) {
+        setOtp('');
+      } else {
+        setError(result.message);
+      }
+    } catch {
+      setError('Failed to resend OTP. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -107,24 +155,23 @@ function Register() {
   const nameError = getNameError();
   const emailError = getEmailError();
   const phoneError = getPhoneError();
+  const otpError = getOTPError();
 
   return (
     <>
       <Header />
-      <div className="auth-page">
+      <div className="auth-page bh-page register-page">
         <div className="auth-container">
           <div className="auth-card">
             <div className="auth-header">
-              <h1>Create Account</h1>
-              <p>Join Beetes Fashion & Style</p>
+              <p className="auth-eyebrow">Be the family</p>
+              <h1>Create account</h1>
+              <p>
+                {step === 1
+                  ? 'We’ll email a code to your inbox.'
+                  : 'Enter the OTP we sent to your email.'}
+              </p>
             </div>
-
-            {success && (
-              <div className="alert alert-success">
-                <i className="fas fa-check-circle"></i>
-                <span>Registration successful! Redirecting to login...</span>
-              </div>
-            )}
 
             {error && (
               <div className="alert alert-error">
@@ -133,98 +180,171 @@ function Register() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="form-group">
-                <label htmlFor="name">
-                  Full Name <span className="required">*</span>
-                </label>
-                <div className={`input-group ${nameError ? 'error' : ''} ${formData.name && !nameError ? 'success' : ''}`}>
-                  <i className="fas fa-user input-icon"></i>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onBlur={() => handleBlur('name')}
-                    placeholder="Enter your full name"
-                    disabled={loading || success}
-                  />
-                  {formData.name && !nameError && <i className="fas fa-check-circle success-icon"></i>}
+            {step === 1 && (
+              <form onSubmit={handleSendOTP} className="auth-form">
+                <div className="form-group">
+                  <label htmlFor="name">
+                    Full Name <span className="required">*</span>
+                  </label>
+                  <div className={`input-group ${nameError ? 'error' : ''} ${formData.name && !nameError ? 'success' : ''}`}>
+                    <i className="fas fa-user input-icon"></i>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('name')}
+                      placeholder="Enter your full name"
+                      disabled={loading}
+                    />
+                    {formData.name && !nameError && <i className="fas fa-check-circle success-icon"></i>}
+                  </div>
+                  {nameError && <small className="error-text">{nameError}</small>}
                 </div>
-                {nameError && <small className="error-text">{nameError}</small>}
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="email">
-                  Email Address <span className="required">*</span>
-                </label>
-                <div className={`input-group ${emailError ? 'error' : ''} ${formData.email && !emailError ? 'success' : ''}`}>
-                  <i className="fas fa-envelope input-icon"></i>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    onBlur={() => handleBlur('email')}
-                    placeholder="Enter your email"
-                    disabled={loading || success}
-                  />
-                  {formData.email && !emailError && <i className="fas fa-check-circle success-icon"></i>}
+                <div className="form-group">
+                  <label htmlFor="email">
+                    Email Address <span className="required">*</span>
+                  </label>
+                  <div className={`input-group ${emailError ? 'error' : ''} ${formData.email && !emailError ? 'success' : ''}`}>
+                    <i className="fas fa-envelope input-icon"></i>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('email')}
+                      placeholder="Enter your email"
+                      disabled={loading}
+                    />
+                    {formData.email && !emailError && <i className="fas fa-check-circle success-icon"></i>}
+                  </div>
+                  {emailError && <small className="error-text">{emailError}</small>}
+                  {!emailError && <small className="helper-text">OTP will be sent to this email</small>}
                 </div>
-                {emailError && <small className="error-text">{emailError}</small>}
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="phone">
-                  Phone Number <span className="required">*</span>
-                </label>
-                <div className={`input-group ${phoneError ? 'error' : ''} ${formData.phone && !phoneError ? 'success' : ''}`}>
-                  <i className="fas fa-phone input-icon"></i>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    onBlur={() => handleBlur('phone')}
-                    placeholder="Enter 10-digit phone number"
-                    maxLength="10"
-                    disabled={loading || success}
-                  />
-                  {formData.phone && !phoneError && <i className="fas fa-check-circle success-icon"></i>}
+                <div className="form-group">
+                  <label htmlFor="phone">
+                    Phone Number <span className="required">*</span>
+                  </label>
+                  <div className={`input-group ${phoneError ? 'error' : ''} ${formData.phone && !phoneError ? 'success' : ''}`}>
+                    <i className="fas fa-phone input-icon"></i>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('phone')}
+                      placeholder="Enter 10-digit phone number"
+                      maxLength="10"
+                      disabled={loading}
+                    />
+                    {formData.phone && !phoneError && <i className="fas fa-check-circle success-icon"></i>}
+                  </div>
+                  {phoneError && <small className="error-text">{phoneError}</small>}
+                  {!phoneError && <small className="helper-text">For order and delivery updates only</small>}
                 </div>
-                {phoneError && <small className="error-text">{phoneError}</small>}
-                {!phoneError && <small className="helper-text">Used for OTP-based login</small>}
-              </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-primary"
-                disabled={loading || success || nameError || emailError || phoneError}
-              >
-                {loading ? (
-                  <>
-                    <span className="spinner"></span>
-                    Creating Account...
-                  </>
-                ) : success ? (
-                  <>
-                    <i className="fas fa-check-circle"></i>
-                    Account Created!
-                  </>
-                ) : (
-                  <>
-                    <i className="fas fa-user-plus"></i>
-                    Create Account
-                  </>
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={loading || !!nameError || !!emailError || !!phoneError}
+                >
+                  {loading ? (
+                    <>
+                      <span className="spinner"></span>
+                      Sending OTP...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-paper-plane"></i>
+                      Send Email OTP
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+
+            {step === 2 && (
+              <form onSubmit={handleVerifyOTP} className="auth-form">
+                <div className="otp-sent-info">
+                  <i className="fas fa-envelope"></i>
+                  <div>
+                    <p>
+                      OTP sent to <strong>{formData.email}</strong>
+                    </p>
+                    <button
+                      type="button"
+                      className="link-btn"
+                      onClick={() => {
+                        setStep(1);
+                        setOtp('');
+                        setError('');
+                        setTouched((prev) => ({ ...prev, otp: false }));
+                      }}
+                    >
+                      Change details
+                    </button>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="otp">
+                    Enter OTP <span className="required">*</span>
+                  </label>
+                  <div className={`input-group ${otpError ? 'error' : ''} ${otp && !otpError ? 'success' : ''}`}>
+                    <i className="fas fa-lock input-icon"></i>
+                    <input
+                      type="text"
+                      id="otp"
+                      value={otp}
+                      onChange={(e) => {
+                        setOtp(e.target.value.replace(/\D/g, ''));
+                        setError('');
+                      }}
+                      onBlur={() => handleBlur('otp')}
+                      placeholder="Enter 6-digit OTP"
+                      maxLength="6"
+                      disabled={loading}
+                      autoFocus
+                    />
+                    {otp && !otpError && <i className="fas fa-check-circle success-icon"></i>}
+                  </div>
+                  {otpError && <small className="error-text">{otpError}</small>}
+                  {!otpError && <small className="helper-text">Check your email inbox for the OTP</small>}
+                </div>
+
+                <button type="submit" className="btn btn-primary" disabled={loading || !!otpError}>
+                  {loading ? (
+                    <>
+                      <span className="spinner"></span>
+                      Verifying...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-user-check"></i>
+                      Verify & Join
+                    </>
+                  )}
+                </button>
+
+                <div className="resend-section">
+                  <p>Didn&apos;t receive OTP?</p>
+                  <button type="button" className="link-btn" onClick={handleResendOTP} disabled={loading}>
+                    <i className="fas fa-redo"></i>
+                    Resend OTP
+                  </button>
+                </div>
+              </form>
+            )}
 
             <div className="auth-footer">
-              <p>Already have an account? <Link to="/login">Login here</Link></p>
+              <p>
+                Already have an account? <Link to="/login">Login here</Link>
+              </p>
             </div>
           </div>
         </div>

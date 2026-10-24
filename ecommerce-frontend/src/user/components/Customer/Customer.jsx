@@ -1,73 +1,57 @@
-import React from 'react'
-import './Customer.css';
+import "./Customer.css";
 
-const Customer = () => {
+const REVIEWS = [
+  {
+    quote:
+      "Beautiful fabrics and a fit that feels intentional. Beestee has become my first stop for elevated everyday wear.",
+    name: "Sarah Johnson",
+    role: "Verified buyer",
+  },
+  {
+    quote:
+      "Quiet luxury done right. The attention to detail is rare—and the pieces hold up beautifully.",
+    name: "Michael Chen",
+    role: "Verified buyer",
+  },
+  {
+    quote:
+      "Modern, refined, and easy to style. Every order feels thoughtfully curated.",
+    name: "Emma Williams",
+    role: "Verified buyer",
+  },
+];
+
+export default function Customer() {
   return (
-    <div>
-      {/* Customer Reviews */}
-<section className="reviews reveal">
-  <div className="reviews-container">
-    <div className="section-header">
-      <h2 className="section-title">CUSTOMER LOVE</h2>
-      <p>What our customers say about us</p>
-    </div>
-    <div className="reviews-grid">
-      <div className="review-card">
-        <div className="review-stars">
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-        </div>
-        <p className="review-text">"Absolutely in love with the quality and design! Every piece feels like it was made just for me. AETHER has become my go-to for special occasions."</p>
-        <div className="review-author">
-          <img src="https://picsum.photos/seed/reviewer1/50/50" alt="Reviewer" className="author-avatar" />
-          <div className="author-info">
-            <h4>Sarah Johnson</h4>
-            <p>Verified Buyer</p>
+    <section className="bh-section bh-reviews">
+      <div className="bh-section__inner">
+        <div className="bh-section__head">
+          <div className="bh-section__copy">
+            <p className="bh-eyebrow">Community Talk</p>
+            <h2 className="bh-section__title">The Community Raves</h2>
+            <p className="bh-section__text">
+              Unfiltered takes from the people keeping our fits in heavy rotation.
+            </p>
           </div>
         </div>
-      </div>
-      <div className="review-card">
-        <div className="review-stars">
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-        </div>
-        <p className="review-text">"The attention to detail is unmatched. I've never received so many compliments on my outfits. Worth every penny!"</p>
-        <div className="review-author">
-          <img src="https://picsum.photos/seed/reviewer2/50/50" alt="Reviewer" className="author-avatar" />
-          <div className="author-info">
-            <h4>Michael Chen</h4>
-            <p>Verified Buyer</p>
-          </div>
-        </div>
-      </div>
-      <div className="review-card">
-        <div className="review-stars">
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-          <i className="fas fa-star" />
-        </div>
-        <p className="review-text">"Sustainable fashion that doesn't compromise on style. AETHER is leading the way in conscious luxury."</p>
-        <div className="review-author">
-          <img src="https://picsum.photos/seed/reviewer3/50/50" alt="Reviewer" className="author-avatar" />
-          <div className="author-info">
-            <h4>Emma Williams</h4>
-            <p>Verified Buyer</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-    </div>
-  )
-}
 
-export default Customer
+        <div className="bh-reviews__grid">
+          {REVIEWS.map((review) => (
+            <blockquote key={review.name} className="bh-reviews__card">
+              <div className="bh-reviews__stars" aria-label="5 star rating">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <i key={i} className="fas fa-star" />
+                ))}
+              </div>
+              <p className="bh-reviews__quote">“{review.quote}”</p>
+              <footer className="bh-reviews__author">
+                <strong>{review.name}</strong>
+                <span>{review.role}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

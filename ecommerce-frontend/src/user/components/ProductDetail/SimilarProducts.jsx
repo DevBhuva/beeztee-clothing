@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import productService from '../../../services/productService';
+import { getPrimaryProductImage } from '../../../utils/productImage';
 import './SimilarProducts.css';
 
 const SimilarProducts = ({ categoryId, currentProductId }) => {
@@ -33,12 +34,7 @@ const SimilarProducts = ({ categoryId, currentProductId }) => {
     }
   };
 
-  const getProductImage = (product) => {
-    if (product.images && product.images.length > 0) {
-      return `http://localhost:3000${product.images[0].imagePath}`;
-    }
-    return 'https://via.placeholder.com/250x300?text=No+Image';
-  };
+  const getProductImage = (product) => getPrimaryProductImage(product);
 
   if (loading || products.length === 0) return null;
 

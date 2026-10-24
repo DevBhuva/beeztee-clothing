@@ -1,76 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./BestSellers.css";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import categoryService from "../../../services/categoryService";
 import productService from "../../../services/productService";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
+import "./BestSellers.css";
 
-const BestSellers = () => {
+export default function BestSellers() {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [displayCount, setDisplayCount] = useState(4); // Show 4 products initially
-  const [showLoadMore, setShowLoadMore] = useState(false);
-  
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { isAuthenticated } = useAuth();
 
-  // Fetch categories and products on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const [categoriesResponse, productsResponse] = await Promise.all([
+          categoryService.getAllCategories(),
+          productService.getBestsellers(24),
+        ]);
 
-        // Fetch all categories
-        const categoriesResponse = await categoryService.getAllCategories();
         if (categoriesResponse.status && categoriesResponse.data) {
-          // Filter only active categories
-          const activeCategories = categoriesResponse.data.filter(
-            (cat) => cat.isActive
-          );
-          setCategories(activeCategories);
+          setCategories(categoriesResponse.data.filter((cat) => cat.isActive));
         }
 
-        // Fetch all bestseller products
-        const productsResponse = await productService.getBestsellers(50);
-        console.log("Products Response:", productsResponse);
-
-        // Handle the actual response structure: response.data.data.products
-        if (
-          productsResponse?.data?.status &&
-          Array.isArray(productsResponse?.data?.data?.products)
-        ) {
-          const productsData = productsResponse.data.data.products;
-          console.log("First product with images:", productsData[0]);
-          setProducts(productsData);
-        } else if (
-          productsResponse?.data?.status &&
-          Array.isArray(productsResponse?.data?.data)
-        ) {
+        if (productsResponse?.data?.status && Array.isArray(productsResponse?.data?.data?.products)) {
+          setProducts(productsResponse.data.data.products);
+        } else if (productsResponse?.data?.status && Array.isArray(productsResponse?.data?.data)) {
           setProducts(productsResponse.data.data);
-        } else if (
-          productsResponse?.status &&
-          Array.isArray(productsResponse?.data)
-        ) {
-          setProducts(productsResponse.data);
-        } else if (Array.isArray(productsResponse)) {
-          setProducts(productsResponse);
         } else {
-          console.error(
-            "Unexpected products response structure:",
-            productsResponse
-          );
           setProducts([]);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching bestsellers:", error);
         setProducts([]);
-        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -79,265 +49,174 @@ const BestSellers = () => {
     fetchData();
   }, []);
 
-  // Filter products based on active filter (by categoryId)
-  const allFilteredProducts = Array.isArray(products)
-    ? activeFilter === "all"
-      ? products
-      : products.filter(
-          (product) => product.categoryId === parseInt(activeFilter)
-        )
-    : [];
+  const filteredProducts = useMemo(() => {
+    const list =
+      activeFilter === "all"
+        ? products
+        : products.filter((product) => product.categoryId === Number(activeFilter));
+    return list.slice(0, 8);
+  }, [products, activeFilter]);
 
-  // Products to display based on displayCount
-  const filteredProducts = allFilteredProducts.slice(0, displayCount);
+  const PRODUCT_FALLBACKS = [
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1523381216130-8b3f99a87a6d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1467043237213-65a2c69bb749?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+  ];
 
-  // Update showLoadMore when filter changes or products change
-  useEffect(() => {
-    setShowLoadMore(allFilteredProducts.length > displayCount);
-  }, [allFilteredProducts.length, displayCount]);
+  const fallbackImage = (product) =>
+    PRODUCT_FALLBACKS[(product.id || 0) % PRODUCT_FALLBACKS.length];
 
-  // Handle filter tab click
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter);
-    setDisplayCount(4); // Reset to 4 products when changing filters
-  };
+  const getProductImage = (product) => fallbackImage(product);
 
-  // Handle Load More button click
-  const handleLoadMore = () => {
-    setDisplayCount(12); // Show 12 products total
-  };
-
-  // Handle add to cart
   const handleAddToCart = async (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    
     if (!isAuthenticated) {
-      toast.error('Please login to add items to cart');
+      toast.error("Please login to add items to cart");
+      navigate("/login");
       return;
     }
-
     await addToCart(product.id, 1);
   };
 
-  // Handle wishlist toggle
   const handleWishlistToggle = async (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    
     if (!isAuthenticated) {
-      toast.error('Please login to add items to wishlist');
+      toast.error("Please login to add items to wishlist");
+      navigate("/login");
       return;
     }
-
     await toggleWishlist(product.id);
   };
 
-  // Get product image URL
-  const getProductImage = (product) => {
-    const baseURL = "http://localhost:3000";
-
-    // Check for 'images' alias (used by backend)
-    if (product.images && product.images.length > 0) {
-      const primaryImage =
-        product.images.find((img) => img.isPrimary) || product.images[0];
-      // Use imagePath field from database
-      const imageUrl = `${baseURL}${
-        primaryImage.imagePath || primaryImage.imageUrl
-      }`;
-      return imageUrl;
-    }
-
-    // Fallback check for 'ProductImages' alias
-    if (product.ProductImages && product.ProductImages.length > 0) {
-      const primaryImage =
-        product.ProductImages.find((img) => img.isPrimary) ||
-        product.ProductImages[0];
-      const imageUrl = `${baseURL}${
-        primaryImage.imagePath || primaryImage.imageUrl
-      }`;
-      return imageUrl;
-    }
-
-    return "https://via.placeholder.com/400x500?text=No+Image";
-  };
-
-  // Calculate discount percentage
-  const getDiscountPercentage = (basePrice, salePrice) => {
-    if (!salePrice || salePrice >= basePrice) return null;
-    const discount = (((basePrice - salePrice) / basePrice) * 100).toFixed(0);
-    return `-${discount}%`;
-  };
-
-  // Get product colors from variants
-  const getProductColors = (product) => {
-    if (product.ProductVariants && product.ProductVariants.length > 0) {
-      const colors = product.ProductVariants.filter(
-        (variant) => variant.colorCode
-      ).map((variant) => variant.colorCode);
-      return [...new Set(colors)]; // Remove duplicates
-    }
-    return ["#f8f8f8", "#333", "#c9a961"]; // Default colors
-  };
-
-  // Calculate average rating from reviews
-  const getAverageRating = (product) => {
-    // For now, return a default rating since we don't have reviews yet
-    // You can implement this when you add reviews feature
-    return 4.5;
-  };
-
-  // Get reviews count
-  const getReviewsCount = (product) => {
-    // Return 0 for now, implement when you have reviews
-    return 0;
-  };
-
-  // Render star rating
-  const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<i key={`full-${i}`} className="fas fa-star"></i>);
-    }
-    if (hasHalfStar) {
-      stars.push(<i key="half" className="fas fa-star-half-alt"></i>);
-    }
-    for (let i = stars.length; i < 5; i++) {
-      stars.push(<i key={`empty-${i}`} className="far fa-star"></i>);
-    }
-    return stars;
-  };
-
   return (
-    <div>
-      {/* Best Sellers Section */}
-      <section id="shop" className="best-sellers">
-        {/* Filter Tabs */}
-        <div className="filter-tabs">
-          <div
-            className={`filter-tab ${activeFilter === "all" ? "active" : ""}`}
-            onClick={() => handleFilterClick("all")}
-          >
-            All Products
+    <section className="bh-section bh-bestsellers" id="shop">
+      <div className="bh-section__inner">
+        <div className="bh-section__head">
+          <div className="bh-section__copy">
+            <p className="bh-eyebrow">Top Tier</p>
+            <h2 className="bh-section__title">The Faves</h2>
+            <p className="bh-section__text">
+              Customer favorites, refined for a modern wardrobe.
+            </p>
           </div>
-          {categories.map((category) => (
-            <div
+          <Link to="/shop" className="bh-link">
+            Dive in <i className="fas fa-arrow-right" aria-hidden="true" />
+          </Link>
+        </div>
+
+        <div className="bh-bestsellers__filters" role="tablist" aria-label="Filter bestsellers">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeFilter === "all"}
+            className={`bh-bestsellers__filter ${
+              activeFilter === "all" ? "is-active" : ""
+            }`}
+            onClick={() => setActiveFilter("all")}
+          >
+            All
+          </button>
+          {categories.slice(0, 5).map((category) => (
+            <button
               key={category.id}
-              className={`filter-tab ${
-                activeFilter === category.id.toString() ? "active" : ""
+              type="button"
+              role="tab"
+              aria-selected={activeFilter === String(category.id)}
+              className={`bh-bestsellers__filter ${
+                activeFilter === String(category.id) ? "is-active" : ""
               }`}
-              onClick={() => handleFilterClick(category.id.toString())}
-              data-category-id={category.id}
+              onClick={() => setActiveFilter(String(category.id))}
             >
-              {category.name}
-            </div>
+              {category.name === "Men" ? "Him" : category.name === "Women" ? "Her" : category.name}
+            </button>
           ))}
         </div>
 
-        {/* Products Grid */}
-        <div className="products-grid" id="products-grid">
-          {loading ? (
-            <div className="loading-message">Loading products...</div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="no-products-message">
-              No bestseller products found in this category.
-            </div>
-          ) : (
-            filteredProducts.map((product) => {
-              const productColors = getProductColors(product);
-              const discountPercent = getDiscountPercentage(
-                product.basePrice,
-                product.salePrice
-              );
-              const rating = getAverageRating(product);
-              const reviewCount = getReviewsCount(product);
+        {loading ? (
+          <div className="bh-loading">Loading bestsellers...</div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="bh-empty">No bestsellers found in this category.</div>
+        ) : (
+          <div className="bh-bestsellers__grid">
+            {filteredProducts.map((product) => {
+              const price = product.salePrice || product.basePrice;
+              const hasSale =
+                product.salePrice && product.salePrice < product.basePrice;
+              const discount =
+                hasSale
+                  ? Math.round(
+                      ((product.basePrice - product.salePrice) / product.basePrice) * 100
+                    )
+                  : null;
 
               return (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  data-category={product.categoryId}
-                >
-                  <Link to={`/product/${product.slug}`} className="product-image-container">
-                    <img
-                      src={getProductImage(product)}
-                      alt={product.name}
-                      className="product-image"
-                    />
-                    <div className="product-badge">Best Seller</div>
-                    <div className="product-actions">
+                <article key={product.id} className="bh-product">
+                  <div className="bh-product__media">
+                    <Link to={`/product/${product.slug}`} className="bh-product__link">
+                      <img
+                        src={getProductImage(product)}
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                    </Link>
+                    {discount ? (
+                      <span className="bh-product__badge bh-product__badge--sale">
+                        -{discount}%
+                      </span>
+                    ) : (
+                      <span className="bh-product__badge">Best</span>
+                    )}
+                    <div className="bh-product__actions">
                       <button
-                        className="action-btn"
+                        type="button"
+                        className="bh-product__action"
                         onClick={(e) => handleWishlistToggle(e, product)}
+                        aria-label="Toggle wishlist"
                       >
                         <i
-                          className={
-                            isInWishlist(product.id)
-                              ? "fas fa-heart"
-                              : "far fa-heart"
-                          }
-                          style={{
-                            color: isInWishlist(product.id)
-                              ? "#ff0080"
-                              : "",
-                          }}
-                        ></i>
+                          className={`${
+                            isInWishlist(product.id) ? "fas" : "far"
+                          } fa-heart`}
+                        />
                       </button>
                       <button
-                        className="action-btn"
+                        type="button"
+                        className="bh-product__action bh-product__action--cart"
                         onClick={(e) => handleAddToCart(e, product)}
                       >
-                        <i className="fas fa-shopping-bag"></i>
+                        Bag it
                       </button>
                     </div>
-                  </Link>
-                  <div className="product-info">
-                    <div className="product-category">
-                      {product.category?.name || product.Category?.name || "Uncategorized"}
-                    </div>
-                    <Link to={`/product/${product.slug}`}>
-                      <h3 className="product-name">{product.name}</h3>
-                    </Link>
-                    <div className="product-rating">
-                      <div className="stars">{renderStars(rating)}</div>
-                      <span className="rating-count">({reviewCount})</span>
-                    </div>
-                    <div className="product-price">
-                      <span className="current-price">
-                        ₹{product.salePrice || product.basePrice}
-                      </span>
-                      {product.salePrice &&
-                        product.salePrice < product.basePrice && (
-                          <>
-                            <span className="original-price">
-                              ₹{product.basePrice}
-                            </span>
-                            <span className="discount">{discountPercent}</span>
-                          </>
-                        )}
-                    </div>
-                   
                   </div>
-                </div>
+                  <div className="bh-product__info">
+                    <p className="bh-product__category">
+                      {product.category?.name ||
+                        product.Category?.name ||
+                        "Collection"}
+                    </p>
+                    <Link to={`/product/${product.slug}`} className="bh-product__name">
+                      {product.name}
+                    </Link>
+                    <p className="bh-product__price">
+                      <span>₹{Number(price).toLocaleString("en-IN")}</span>
+                      {hasSale && (
+                        <s>₹{Number(product.basePrice).toLocaleString("en-IN")}</s>
+                      )}
+                    </p>
+                  </div>
+                </article>
               );
-            })
-          )}
-        </div>
-
-        {/* Load More Button */}
-        {!loading && showLoadMore && (
-          <div className="load-more-container">
-            <button className="load-more-btn" onClick={handleLoadMore}>
-              Load More Products
-            </button>
+            })}
           </div>
         )}
-      </section>
-    </div>
+      </div>
+    </section>
   );
-};
-
-export default BestSellers;
+}

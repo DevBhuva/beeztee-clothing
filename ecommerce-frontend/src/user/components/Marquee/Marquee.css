@@ -1,0 +1,48 @@
+.bh-marquee {
+  overflow: hidden;
+  background: #12100e;
+  color: #f7f3ec;
+  border-top: 1px solid rgba(247, 243, 236, 0.08);
+  border-bottom: 1px solid rgba(247, 243, 236, 0.08);
+}
+
+.bh-marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  padding: 0.85rem 0;
+  animation: bh-marquee-scroll 28s linear infinite;
+}
+
+.bh-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.35rem;
+  padding: 0 1.35rem;
+  font-family: "Outfit", "Montserrat", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bh-marquee__sep {
+  color: #c4862f;
+  font-size: 0.55rem;
+}
+
+@keyframes bh-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bh-marquee__track {
+    animation: none;
+  }
+}

@@ -1,14 +1,26 @@
 import api from './api';
+import { USE_DEMO_PRODUCTS } from '../config/demo';
+import { demoCategoriesBody } from './demoCatalogService';
+import { DEMO_CATEGORIES } from '../data/demoCatalog';
 
 const categoryService = {
   // Get all categories
   getAllCategories: async () => {
+    if (USE_DEMO_PRODUCTS) return demoCategoriesBody();
     const response = await api.get('/categories');
     return response.data;
   },
 
   // Get category by ID
   getCategoryById: async (id) => {
+    if (USE_DEMO_PRODUCTS) {
+      const category = DEMO_CATEGORIES.find((c) => Number(c.id) === Number(id));
+      return {
+        status: true,
+        statusCode: 200,
+        data: category || null,
+      };
+    }
     const response = await api.get(`/categories/${id}`);
     return response.data;
   },

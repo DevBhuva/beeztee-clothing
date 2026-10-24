@@ -1,9 +1,15 @@
 import api from './api';
+import { USE_DEMO_PRODUCTS } from '../config/demo';
+import {
+  demoFilterOptionsBody,
+  demoFilteredProductsBody,
+} from './demoCatalogService';
 
 const filterService = {
   // Get available filter options
   getFilterOptions: async () => {
     try {
+      if (USE_DEMO_PRODUCTS) return demoFilterOptionsBody();
       const response = await api.get('/products/filters/options');
       return response.data;
     } catch (error) {
@@ -61,6 +67,7 @@ const filterService = {
   getFilteredProducts: async (filters) => {
     try {
       const params = filterService.buildQueryParams(filters);
+      if (USE_DEMO_PRODUCTS) return demoFilteredProductsBody(params);
       const response = await api.get('/products', { params });
       return response.data;
     } catch (error) {

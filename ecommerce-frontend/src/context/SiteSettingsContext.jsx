@@ -13,15 +13,15 @@ export const useSiteSettings = () => {
 
 export const SiteSettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
-    siteName: 'Beestee',
+    siteName: 'Beeztee',
     siteTagline: 'Your Premium E-Commerce Store',
-    siteDescription: 'Shop the best products at amazing prices',
+    siteDescription: 'We exist to replace the ordinary',
     contactEmail: '',
     contactPhone: '',
     whatsappNumber: '',
     contactAddress: '',
     logoUrl: '',
-    faviconUrl: '',
+    faviconUrl: '/logo.png',
     facebookUrl: '',
     twitterUrl: '',
     instagramUrl: '',

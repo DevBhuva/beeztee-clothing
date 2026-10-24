@@ -177,7 +177,7 @@ const Wishlist = () => {
                         disabled={item.product.stockQuantity === 0}
                       >
                         <i className="fas fa-shopping-cart"></i>
-                        Add to Cart
+                        Bag it
                       </button>
                       <button
                         className="view-product-btn"

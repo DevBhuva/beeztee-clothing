@@ -1,4 +1,10 @@
 import api from './api';
+import { USE_DEMO_PRODUCTS } from '../config/demo';
+import {
+  demoAxiosProductById,
+  demoAxiosProductBySlug,
+  demoAxiosProducts,
+} from './demoCatalogService';
 
 const productService = {
   // ============================================
@@ -7,16 +13,19 @@ const productService = {
 
   // Get all products with filters
   getAllProducts: (params = {}) => {
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(params);
     return api.get('/products', { params });
   },
 
   // Get product by ID
   getProductById: (id) => {
+    if (USE_DEMO_PRODUCTS) return demoAxiosProductById(id);
     return api.get(`/products/${id}`);
   },
 
   // Get product by slug
   getProductBySlug: (slug) => {
+    if (USE_DEMO_PRODUCTS) return demoAxiosProductBySlug(slug);
     return api.get(`/products/slug/${slug}`);
   },
 
@@ -358,34 +367,35 @@ const productService = {
 
   // Get trending products
   getTrendingProducts: (limit = 10) => {
-    return api.get('/products', { 
-      params: { isTrending: 'true', status: 'published', isActive: 'true', limit } 
-    });
+    const params = { isTrending: 'true', status: 'published', isActive: 'true', limit };
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(params);
+    return api.get('/products', { params });
   },
 
   // Get new arrivals
   getNewArrivals: (limit = 10) => {
-    return api.get('/products', { 
-      params: { isNewArrival: 'true', status: 'published', isActive: 'true', limit } 
-    });
+    const params = { isNewArrival: 'true', status: 'published', isActive: 'true', limit };
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(params);
+    return api.get('/products', { params });
   },
 
   // Get bestsellers
   getBestsellers: (limit = 10) => {
-    return api.get('/products', { 
-      params: { isBestseller: 'true', status: 'published', isActive: 'true', limit } 
-    });
+    const params = { isBestseller: 'true', status: 'published', isActive: 'true', limit };
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(params);
+    return api.get('/products', { params });
   },
 
   // Search products
   searchProducts: (searchTerm, params = {}) => {
-    return api.get('/products', { 
-      params: { search: searchTerm, ...params } 
-    });
+    const query = { search: searchTerm, ...params };
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(query);
+    return api.get('/products', { params: query });
   },
 
   // Filter products
   filterProducts: (filters) => {
+    if (USE_DEMO_PRODUCTS) return demoAxiosProducts(filters);
     return api.get('/products', { params: filters });
   },
 

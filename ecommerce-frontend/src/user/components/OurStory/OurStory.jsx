@@ -1,36 +1,41 @@
-import React from 'react'
-import './OurStory.css';
+import { useSiteSettings } from "../../../context/SiteSettingsContext";
+import "./OurStory.css";
 
-const OurStory = () => {
+export default function OurStory() {
+  const { settings } = useSiteSettings();
+  const brand = settings?.siteName || "Beeztee";
+
   return (
-    <div>
-      {/* Brand Story Section */}
-<section className="brand-story reveal">
-  <div className="story-content">
-    <h2>OUR STORY</h2>
-    <p>Founded in 2020, AETHER emerged from a vision to redefine luxury fashion through innovative design and sustainable practices. Our journey began with a simple question: What if elegance could be both timeless and forward-thinking?</p>
-    <p>Today, we're proud to be at the forefront of contemporary fashion, creating pieces that not only look beautiful but also feel meaningful. Each collection tells a story of craftsmanship, creativity, and conscious design.</p>
-    <div className="story-stats">
-      <div className="stat-item">
-        <span className="stat-number">50+</span>
-        <span className="stat-label">Countries</span>
+    <section className="bh-story">
+      <div className="bh-story__inner">
+        <div className="bh-story__media">
+          <img
+            src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80"
+            alt={`${brand} atelier`}
+            loading="lazy"
+          />
+        </div>
+        <div className="bh-story__content">
+          <p className="bh-eyebrow">The brand</p>
+          <h2 className="bh-story__title">Designed for the Feed</h2>
+          <p className="bh-story__text">
+            {brand} merges zero-effort styling with everyday luxury—pieces that permanently live in
+            your rotation.
+          </p>
+          <p className="bh-story__text">
+            From fabric to finish, everything is dialed in for immaculate silhouettes and low-key flexes.
+          </p>
+          <div className="bh-story__stats">
+            <div>
+              <strong>2025</strong>
+              <span>Estd.</span>
+            </div>
+          </div>
+          <a href="#journal" className="bh-story__cta">
+            Inner Circle
+          </a>
+        </div>
       </div>
-      <div className="stat-item">
-        <span className="stat-number">100K+</span>
-        <span className="stat-label">Happy Customers</span>
-      </div>
-      <div className="stat-item">
-        <span className="stat-number">500+</span>
-        <span className="stat-label">Unique Designs</span>
-      </div>
-    </div>
-  </div>
-  <div className="story-image">
-    <img src="https://picsum.photos/seed/story/600/600" alt="Our Story" />
-  </div>
-</section>
-    </div>
-  )
+    </section>
+  );
 }
-
-export default OurStory

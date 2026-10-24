@@ -1,0 +1,26 @@
+/* Beeztee brand font — Hello Paris
+   Put the licensed files in public/fonts/ as:
+   HelloParis.woff2 (best), HelloParis.woff, HelloParis.otf, or HelloParis.ttf
+*/
+
+@font-face {
+  font-family: "Hello Paris";
+  src:
+    url("/fonts/HelloParis.woff2") format("woff2"),
+    url("/fonts/HelloParis.woff") format("woff"),
+    url("/fonts/HelloParis.otf") format("opentype"),
+    url("/fonts/HelloParis.ttf") format("truetype"),
+    local("Hello Paris"),
+    local("HelloParis");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Parisienne";
+  src: url("/fonts/Parisienne.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

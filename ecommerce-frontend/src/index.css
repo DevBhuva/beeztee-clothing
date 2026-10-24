@@ -1,95 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Beeztee storefront theme */
+@import './assets/fonts/fonts.css';
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-/* styles.css */
-* {
-  margin: 0;
-  padding: 0;
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 :root {
-  /* Core theme (applied across all pages) */
-  --primary: #0a0a0a;         /* App background / dark surfaces */
-  --text-light: #f5f5f5;      /* Text on dark */
-  --text-dark: #1a1a1a;       /* Text on light */
+  --bh-ink: #1a1612;
+  --bh-paper: #f7f3ec;
+  --bh-soft: #efe9df;
+  --bh-muted: #6f675e;
+  --bh-line: rgba(26, 22, 18, 0.12);
+  --bh-accent: #c4862f;
+  --bh-accent-hover: #d49a45;
+  --bh-deep: #12100e;
+  --bh-max: 1240px;
+  --bh-font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --bh-font-script: "Hello Paris", "HelloParis", "Parisienne", cursive;
+  --bh-font-body: "Outfit", "Montserrat", sans-serif;
 
-  --secondary: #d4a574;       /* Warm highlight */
-  --accent: #e91e63;          /* Action / links */
-  --gold: #d4af37;            /* Decorative gold */
+  /* Legacy aliases used across older page CSS */
+  --primary: #1a1612;
+  --text-light: #f7f3ec;
+  --text-dark: #1a1612;
+  --secondary: #c4862f;
+  --accent: #c4862f;
+  --gold: #c4862f;
+  --white: #ffffff;
+  --light: #efe9df;
+  --gray: #6f675e;
+  --dark-gray: #3b342c;
+  --glass: rgba(26, 22, 18, 0.04);
+  --shadow: 0 18px 40px rgba(18, 16, 14, 0.12);
+  --max-width: 1240px;
+  --radius: 0;
+  --font-heading: var(--bh-font-display);
+  --font-body: var(--bh-font-body);
+  --font-special: var(--bh-font-body);
+  --section-padding: 5rem;
+  --container-padding: 1.5rem;
+}
 
-  --white: #ffffff;           /* Light surfaces */
-  --light: #f5f5f5;           /* Light section bg */
-  --gray: #666666;            /* Muted text */
-  --dark-gray: #333333;       /* Secondary dark */
-
-  --glass: rgba(255, 255, 255, 0.05);
-  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --max-width: 1400px;
-  --radius: 10px;
-
-  /* Responsive Font Sizes */
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Poppins', sans-serif;
-  --font-special: 'Montserrat', sans-serif;
-
-  /* Responsive Spacing */
-  --section-padding: 100px;
-  --container-padding: 50px;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background: var(--primary);
-  color: var(--text-light);
+  margin: 0;
+  font-family: var(--bh-font-body);
+  background: var(--bh-paper);
+  color: var(--bh-ink);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Global Responsive Container */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
 .container-responsive {
-  max-width: var(--max-width);
+  max-width: var(--bh-max);
   margin: 0 auto;
   padding: 0 var(--container-padding);
 }
 
-/* Responsive Typography */
-@media (max-width: 1400px) {
-  :root {
-    --section-padding: 80px;
-    --container-padding: 40px;
-  }
-}
-
-@media (max-width: 1024px) {
-  :root {
-    --section-padding: 60px;
-    --container-padding: 30px;
-  }
-}
-
 @media (max-width: 768px) {
   :root {
-    --section-padding: 40px;
-    --container-padding: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --section-padding: 30px;
-    --container-padding: 15px;
-  }
-}
-
-/* Responsive Image Utility */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Hide scrollbar on mobile for smooth experience */
-@media (max-width: 768px) {
-  body::-webkit-scrollbar {
-    width: 0px;
+    --section-padding: 3.5rem;
+    --container-padding: 1.15rem;
   }
 }

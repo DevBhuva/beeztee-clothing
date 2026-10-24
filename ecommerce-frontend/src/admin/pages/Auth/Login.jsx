@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminLogin } from '../../../services/authService';
 import { useAuth } from '../../../context/AuthContext';
-import logo from '../../../assets/images/logo.png';
 import './login.css';
+
+const logo = '/logo.png';
 
 const AdminLogin = () => {
   const navigate = useNavigate();

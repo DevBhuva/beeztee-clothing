@@ -1,165 +1,152 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './HeroSection.css';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./HeroSection.css";
+
+const API_BASE = import.meta.env.VITE_API_URL?.replace(/\/api$/, "") || "http://localhost:3000";
+
+const FALLBACK_IMAGE =
+  "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2400&q=80";
 
 export default function HeroSection() {
   const [heroData, setHeroData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [mediaReady, setMediaReady] = useState(false);
 
   useEffect(() => {
-    // Fetch active hero sections from API
     const fetchHeroData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/hero-sections/active');
+        const response = await axios.get(`${API_BASE}/api/hero-sections/active`);
         if (response.data.success && response.data.data.length > 0) {
-          // Use all active hero sections for slider
           setHeroData(response.data.data);
         }
       } catch (error) {
-        console.error('Error fetching hero data:', error);
-        // Keep default data if API fails
+        console.error("Error fetching hero data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchHeroData();
-
-    // Create particles on mount
-    const particlesContainer = document.getElementById('particles');
-    if (!particlesContainer) return;
-
-    const particleCount = 50;
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 15 + 's';
-      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      particlesContainer.appendChild(particle);
-    }
-
-    return () => {
-      if (particlesContainer) {
-        particlesContainer.innerHTML = '';
-      }
-    };
   }, []);
 
-  // Auto-slide effect
   useEffect(() => {
-    if (heroData.length <= 1) return;
-
+    if (heroData.length <= 1) return undefined;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroData.length);
-    }, 5000); // Change slide every 5 seconds
-
+      setMediaReady(false);
+    }, 6500);
     return () => clearInterval(interval);
   }, [heroData.length]);
 
-  const handleDotClick = (index) => {
-    setCurrentSlide(index);
-  };
-
-  // Default data if no hero sections from API
-  const defaultHeroData = {
-    title: 'ÉCLAT',
-    tagline: 'Wear the Future. Redefine the Present.',
-    primaryButtonText: 'Explore Collection',
-    primaryButtonLink: '/shop',
-    secondaryButtonText: 'Discover More',
-    secondaryButtonLink: '/about',
-  };
-
-  const activeHeroData = heroData.length > 0 ? heroData[currentSlide] : defaultHeroData;
-
-  // Helper function to get media URL
   const getMediaUrl = (url) => {
     if (!url) return null;
-    // If it's a relative path (uploaded file), prepend the server URL
-    if (url.startsWith('/uploads/')) {
-      return `http://localhost:3000${url}`;
-    }
-    // Otherwise, it's an external URL
+    if (url.startsWith("/uploads/")) return `${API_BASE}${url}`;
     return url;
   };
 
-  // Get current slide data with proper field mapping
-  const title = activeHeroData?.title || 'ÉCLAT';
-  const tagline = activeHeroData?.tagline || 'Wear the Future. Redefine the Present.';
-  const videoUrl = activeHeroData?.video_url || activeHeroData?.videoUrl;
-  const backgroundImage = activeHeroData?.background_image || activeHeroData?.backgroundImage;
-  const primaryButtonText = activeHeroData?.primary_button_text || activeHeroData?.primaryButtonText || 'Explore Collection';
-  const primaryButtonLink = activeHeroData?.primary_button_link || activeHeroData?.primaryButtonLink || '/shop';
-  const secondaryButtonText = activeHeroData?.secondary_button_text || activeHeroData?.secondaryButtonText || 'Discover More';
-  const secondaryButtonLink = activeHeroData?.secondary_button_link || activeHeroData?.secondaryButtonLink || '/about';
+  const defaultHero = {
+    title: "BEEZTEE",
+    tagline: "We exist to replace the ordinary",
+    primaryButtonText: "Cop the drop",
+    primaryButtonLink: "/shop",
+    secondaryButtonText: "The ethos",
+    secondaryButtonLink: "/about",
+    backgroundImage: FALLBACK_IMAGE,
+  };
 
-  const finalVideoUrl = getMediaUrl(videoUrl);
-  const finalBackgroundImage = getMediaUrl(backgroundImage);
+  const active = heroData.length > 0 ? heroData[currentSlide] : defaultHero;
+
+  const videoUrl = getMediaUrl(active?.video_url || active?.videoUrl);
+  const backgroundImage =
+    getMediaUrl(active?.background_image || active?.backgroundImage) ||
+    (!videoUrl ? FALLBACK_IMAGE : null);
+  const primaryButtonLink =
+    active?.primary_button_link || active?.primaryButtonLink || "/shop";
+  const secondaryButtonLink =
+    active?.secondary_button_link || active?.secondaryButtonLink || "/about";
+  const tagline = "We exist to replace the ordinary";
+  const primaryButtonText = "Cop the drop";
+  const secondaryButtonText = "The ethos";
+  const headline = "For the connoisseurs";
 
   if (loading) {
     return (
-      <section id="home" className="hero-section">
-        <div className="hero-loading">
-          <div className="spinner"></div>
+      <section id="home" className="bh-hero bh-hero--loading">
+        <div className="bh-hero__loader">
+          <div className="bh-hero__spinner" />
         </div>
       </section>
     );
   }
 
   return (
-    <section id="home" className="hero-section">
-      {finalVideoUrl && (
-        <video key={currentSlide} className="hero-video" autoPlay loop muted playsInline>
-          <source src={finalVideoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
-      
-      {finalBackgroundImage && !finalVideoUrl && (
-        <div 
-          key={currentSlide}
-          className="hero-background-image" 
-          style={{ backgroundImage: `url(${finalBackgroundImage})` }}
-        ></div>
-      )}
-      
-      {/* Video Overlay with Gradient */}
-      <div className="video-overlay"></div>
-      
-      {/* Animated Particles Background */}
-      <div className="particles" id="particles"></div>
-      
-      {/* Hero Content */}
-      <div className="hero-content" key={`content-${currentSlide}`}>
-        <h1 className="glitch" data-text={title}>{title}</h1>
-        <p className="tagline">{tagline}</p>
-        <div className="btn-container">
-          <a href={primaryButtonLink} className="btn btn-primary magnetic-btn">
+    <section id="home" className="bh-hero">
+      <div className="bh-hero__media" aria-hidden="true">
+        {videoUrl ? (
+          <video
+            key={`video-${currentSlide}`}
+            className={`bh-hero__video ${mediaReady ? "is-ready" : ""}`}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setMediaReady(true)}
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+        ) : (
+          <div
+            key={`image-${currentSlide}`}
+            className={`bh-hero__image ${mediaReady ? "is-ready" : ""}`}
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          />
+        )}
+        {!videoUrl && (
+          <img
+            src={backgroundImage}
+            alt=""
+            className="bh-hero__preload"
+            onLoad={() => setMediaReady(true)}
+          />
+        )}
+        <div className="bh-hero__overlay" />
+      </div>
+
+      <div className="bh-hero__content" key={`content-${currentSlide}`}>
+        <h1 className="bh-hero__wordmark">Beeztee</h1>
+        <p className="bh-hero__kicker">{headline}</p>
+        <p className="bh-hero__tagline">{tagline}</p>
+        <div className="bh-hero__actions">
+          <Link to={primaryButtonLink} className="bh-hero__btn bh-hero__btn--primary">
             {primaryButtonText}
-          </a>
-          <a href={secondaryButtonLink} className="btn btn-secondary">
+          </Link>
+          <Link to={secondaryButtonLink} className="bh-hero__btn bh-hero__btn--ghost">
             {secondaryButtonText}
-          </a>
+          </Link>
         </div>
       </div>
-      
-      {/* Scroll Indicator */}
-      <div className="scroll-indicator">
-        <span className="scroll-text">Scroll</span>
-        <div className="mouse"></div>
+
+      <div className="bh-hero__scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div className="bh-hero__scroll-line" />
       </div>
-      
-      {/* Navigation Dots - Dynamic based on hero sections */}
+
       {heroData.length > 1 && (
-        <div className="nav-dots">
+        <div className="bh-hero__dots" role="tablist" aria-label="Hero slides">
           {heroData.map((_, index) => (
-            <div 
+            <button
               key={index}
-              className={`dot ${currentSlide === index ? 'active' : ''}`}
-              onClick={() => handleDotClick(index)}
-            ></div>
+              type="button"
+              role="tab"
+              aria-selected={currentSlide === index}
+              className={`bh-hero__dot ${currentSlide === index ? "is-active" : ""}`}
+              onClick={() => {
+                setCurrentSlide(index);
+                setMediaReady(false);
+              }}
+            />
           ))}
         </div>
       )}

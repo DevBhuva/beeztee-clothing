@@ -1,119 +1,111 @@
 import React, { useState } from 'react';
+import { resolveImagePath, getProductFallback } from '../../../utils/productImage';
 import './ImageGallery.css';
 
-const ImageGallery = ({ images, selectedImage, onImageSelect, productName }) => {
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+const ImageGallery = ({ images = [], selectedImage = 0, onImageSelect, productName, productId }) => {
   const [showLightbox, setShowLightbox] = useState(false);
+  const [broken, setBroken] = useState({});
 
-  const baseURL = 'http://localhost:3000';
+  const safeImages =
+    Array.isArray(images) && images.length > 0
+      ? images
+      : [{ imagePath: getProductFallback(productId || 0), isPrimary: true }];
 
-  const getImageUrl = (image) => {
-    if (!image) return 'https://via.placeholder.com/600x750?text=No+Image';
-    return `${baseURL}${image.imagePath}`;
+  const getImageUrl = (image, index = 0) => {
+    if (broken[index]) return getProductFallback((productId || 0) + index + 1);
+    if (!image) return getProductFallback(productId || 0);
+    return resolveImagePath(image.imagePath || image.imageUrl, (productId || 0) + index);
   };
 
-  const handleMouseMove = (e) => {
-    if (!isZoomed) return;
-
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
-
-    setZoomPosition({ x, y });
-  };
-
-  const currentImage = images[selectedImage] || images[0];
+  const activeIndex = Math.min(selectedImage, safeImages.length - 1);
+  const currentImage = safeImages[activeIndex] || safeImages[0];
 
   return (
     <div className="image-gallery">
-      {/* Main Image with Zoom */}
       <div
         className="main-image-container"
-        onMouseEnter={() => setIsZoomed(true)}
-        onMouseLeave={() => setIsZoomed(false)}
-        onMouseMove={handleMouseMove}
         onClick={() => setShowLightbox(true)}
       >
         <img
-          src={getImageUrl(currentImage)}
+          src={getImageUrl(currentImage, activeIndex)}
           alt={productName}
           className="main-image"
-          style={
-            isZoomed
-              ? {
-                  transform: 'scale(2)',
-                  transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                  cursor: 'zoom-in'
-                }
-              : {}
+          onError={() =>
+            setBroken((prev) => ({ ...prev, [activeIndex]: true }))
           }
         />
-        
-        {images.length > 1 && (
-          <button className="zoom-hint">
+
+        {safeImages.length > 1 && (
+          <button type="button" className="zoom-hint">
             <i className="fas fa-search-plus"></i>
             <span>Click to enlarge</span>
           </button>
         )}
 
-        {currentImage?.isPrimary && (
+        {false && currentImage?.isPrimary && (
           <span className="primary-badge">Main Image</span>
         )}
       </div>
 
-      {/* Thumbnails */}
-      {images.length > 1 && (
+      {safeImages.length > 1 && (
         <div className="thumbnails-container">
           <div className="thumbnails-scroll">
-            {images.map((image, index) => (
-              <div
-                key={index}
-                className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                onClick={() => onImageSelect(index)}
+            {safeImages.map((image, index) => (
+              <button
+                type="button"
+                key={image.id || index}
+                className={`thumbnail ${activeIndex === index ? 'active' : ''}`}
+                onClick={() => onImageSelect?.(index)}
               >
                 <img
-                  src={getImageUrl(image)}
+                  src={getImageUrl(image, index)}
                   alt={`${productName} - ${index + 1}`}
+                  onError={() =>
+                    setBroken((prev) => ({ ...prev, [index]: true }))
+                  }
                 />
-              </div>
+              </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Lightbox Modal */}
       {showLightbox && (
         <div className="lightbox-overlay" onClick={() => setShowLightbox(false)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={() => setShowLightbox(false)}>
+            <button type="button" className="lightbox-close" onClick={() => setShowLightbox(false)}>
               <i className="fas fa-times"></i>
             </button>
 
             <button
+              type="button"
               className="lightbox-nav prev"
-              onClick={() => onImageSelect(Math.max(0, selectedImage - 1))}
-              disabled={selectedImage === 0}
+              onClick={() => onImageSelect?.(Math.max(0, activeIndex - 1))}
+              disabled={activeIndex === 0}
             >
               <i className="fas fa-chevron-left"></i>
             </button>
 
             <img
-              src={getImageUrl(currentImage)}
+              src={getImageUrl(currentImage, activeIndex)}
               alt={productName}
               className="lightbox-image"
+              onError={() =>
+                setBroken((prev) => ({ ...prev, [activeIndex]: true }))
+              }
             />
 
             <button
+              type="button"
               className="lightbox-nav next"
-              onClick={() => onImageSelect(Math.min(images.length - 1, selectedImage + 1))}
-              disabled={selectedImage === images.length - 1}
+              onClick={() => onImageSelect?.(Math.min(safeImages.length - 1, activeIndex + 1))}
+              disabled={activeIndex === safeImages.length - 1}
             >
               <i className="fas fa-chevron-right"></i>
             </button>
 
             <div className="lightbox-counter">
-              {selectedImage + 1} / {images.length}
+              {activeIndex + 1} / {safeImages.length}
             </div>
           </div>
         </div>

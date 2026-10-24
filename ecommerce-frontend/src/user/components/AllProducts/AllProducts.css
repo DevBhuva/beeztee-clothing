@@ -1,0 +1,72 @@
+.bh-catalog {
+  background: #f7f3ec;
+}
+
+.bh-catalog__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: -0.75rem 0 2.25rem;
+}
+
+.bh-catalog__filter {
+  border: 1px solid rgba(26, 22, 18, 0.14);
+  background: transparent;
+  color: #6f675e;
+  padding: 0.55rem 1rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.bh-catalog__filter:hover {
+  border-color: #c4862f;
+  color: #1a1612;
+}
+
+.bh-catalog__filter.is-active {
+  background: #1a1612;
+  border-color: #1a1612;
+  color: #f7f3ec;
+}
+
+.bh-catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem 1.15rem;
+}
+
+@media (max-width: 1024px) {
+  .bh-catalog__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bh-catalog__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 0.85rem;
+  }
+
+  .bh-catalog__filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.35rem;
+    margin-bottom: 1.75rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bh-catalog__filter {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .bh-catalog__grid {
+    grid-template-columns: 1fr;
+  }
+}

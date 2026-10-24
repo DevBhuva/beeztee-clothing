@@ -10,22 +10,18 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [step, setStep] = useState(1);
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [touched, setTouched] = useState({ phone: false, otp: false });
+  const [touched, setTouched] = useState({ email: false, otp: false });
 
-  const validatePhone = (phoneNumber) => {
-    const phoneRegex = /^[6-9]\d{9}$/;
-    return phoneRegex.test(phoneNumber);
-  };
+  const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  const getPhoneError = () => {
-    if (!touched.phone) return '';
-    if (!phone) return 'Phone number is required';
-    if (phone.length < 10) return 'Phone number must be 10 digits';
-    if (!validatePhone(phone)) return 'Invalid phone number (must start with 6-9)';
+  const getEmailError = () => {
+    if (!touched.email) return '';
+    if (!email) return 'Email is required';
+    if (!validateEmail(email)) return 'Invalid email address';
     return '';
   };
 
@@ -38,28 +34,28 @@ function Login() {
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    setTouched({ ...touched, phone: true });
+    setTouched({ ...touched, email: true });
     setError('');
 
-    if (!phone) {
-      setError('Please enter your phone number');
+    if (!email) {
+      setError('Please enter your email');
       return;
     }
 
-    if (!validatePhone(phone)) {
-      setError('Please enter a valid 10-digit phone number starting with 6-9');
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
       return;
     }
 
     setLoading(true);
 
     try {
-      const result = await sendOTP(phone);
-      
+      const result = await sendOTP(email.trim().toLowerCase());
+
       if (result.success) {
         setStep(2);
         setError('');
-        setTouched({ phone: false, otp: false });
+        setTouched({ email: false, otp: false });
       } else {
         setError(result.message);
       }
@@ -88,8 +84,8 @@ function Login() {
     setLoading(true);
 
     try {
-      const result = await verifyOTP(phone, otp);
-      
+      const result = await verifyOTP(email.trim().toLowerCase(), otp);
+
       if (result.success) {
         login(result.user);
         navigate('/');
@@ -108,8 +104,8 @@ function Login() {
     setLoading(true);
 
     try {
-      const result = await sendOTP(phone);
-      
+      const result = await sendOTP(email.trim().toLowerCase());
+
       if (result.success) {
         setOtp('');
         setError('');
@@ -123,25 +119,26 @@ function Login() {
     }
   };
 
-  const handleBackToPhone = () => {
+  const handleBackToEmail = () => {
     setStep(1);
     setOtp('');
     setError('');
-    setTouched({ phone: false, otp: false });
+    setTouched({ email: false, otp: false });
   };
 
-  const phoneError = getPhoneError();
+  const emailError = getEmailError();
   const otpError = getOTPError();
 
   return (
     <>
       <Header />
-      <div className="auth-page">
+      <div className="auth-page bh-page login-page">
         <div className="auth-container">
           <div className="auth-card">
             <div className="auth-header">
-              <h1>Welcome Back!</h1>
-              <p>Login with OTP to continue shopping</p>
+              <p className="auth-eyebrow">Account</p>
+              <h1>Welcome back</h1>
+              <p>Sign in with email OTP to continue shopping</p>
             </div>
 
             {error && (
@@ -153,36 +150,32 @@ function Login() {
 
             {step === 1 && (
               <form onSubmit={handleSendOTP} className="auth-form">
-               <div className={`input-group ${phoneError ? 'error' : ''} ${phone && !phoneError ? 'success' : ''}`}>
-  <i className="fas fa-phone input-icon"></i>
+                <div className="form-group">
+                  <label htmlFor="email">
+                    Email Address <span className="required">*</span>
+                  </label>
+                  <div className={`input-group ${emailError ? 'error' : ''} ${email && !emailError ? 'success' : ''}`}>
+                    <i className="fas fa-envelope input-icon"></i>
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setError('');
+                      }}
+                      onBlur={() => setTouched({ ...touched, email: true })}
+                      placeholder="Enter your email"
+                      disabled={loading}
+                      autoFocus
+                    />
+                    {email && !emailError && <i className="fas fa-check-circle success-icon"></i>}
+                  </div>
+                  {emailError && <small className="error-text">{emailError}</small>}
+                  {!emailError && <small className="helper-text">We&apos;ll send a 6-digit OTP to your email</small>}
+                </div>
 
-  <input
-    type="tel"
-    id="phone"
-    value={phone}
-    onChange={(e) => {
-      setPhone(e.target.value.replace(/\D/g, ''));
-      setError('');
-    }}
-    onBlur={() => setTouched({ ...touched, phone: true })}
-    placeholder="Enter 10-digit mobile number"
-    maxLength="10"
-    disabled={loading}
-    autoFocus
-  />
-
-  {phone && !phoneError && <i className="fas fa-check-circle success-icon"></i>}
-</div>
-
-{phoneError && <small className="error-text">{phoneError}</small>}
-{!phoneError && <small className="helper-text">We'll send you a 6-digit OTP</small>}
-
-
-                <button 
-                  type="submit" 
-                  className="btn btn-primary"
-                  disabled={loading || !!phoneError}
-                >
+                <button type="submit" className="btn btn-primary" disabled={loading || !!emailError}>
                   {loading ? (
                     <>
                       <span className="spinner"></span>
@@ -201,11 +194,13 @@ function Login() {
             {step === 2 && (
               <form onSubmit={handleVerifyOTP} className="auth-form">
                 <div className="otp-sent-info">
-                  <i className="fas fa-mobile-alt"></i>
+                  <i className="fas fa-envelope"></i>
                   <div>
-                    <p>OTP sent to <strong>+91 {phone}</strong></p>
-                    <button type="button" className="link-btn" onClick={handleBackToPhone}>
-                      Change Number
+                    <p>
+                      OTP sent to <strong>{email}</strong>
+                    </p>
+                    <button type="button" className="link-btn" onClick={handleBackToEmail}>
+                      Change Email
                     </button>
                   </div>
                 </div>
@@ -233,14 +228,10 @@ function Login() {
                     {otp && !otpError && <i className="fas fa-check-circle success-icon"></i>}
                   </div>
                   {otpError && <small className="error-text">{otpError}</small>}
-                  {!otpError && <small className="helper-text">Check your phone for the OTP</small>}
+                  {!otpError && <small className="helper-text">Check your email for the OTP</small>}
                 </div>
 
-                <button 
-                  type="submit" 
-                  className="btn btn-primary"
-                  disabled={loading || !!otpError}
-                >
+                <button type="submit" className="btn btn-primary" disabled={loading || !!otpError}>
                   {loading ? (
                     <>
                       <span className="spinner"></span>
@@ -255,7 +246,7 @@ function Login() {
                 </button>
 
                 <div className="resend-section">
-                  <p>Didn't receive OTP?</p>
+                  <p>Didn&apos;t receive OTP?</p>
                   <button type="button" className="link-btn" onClick={handleResendOTP} disabled={loading}>
                     <i className="fas fa-redo"></i>
                     Resend OTP
@@ -265,7 +256,9 @@ function Login() {
             )}
 
             <div className="auth-footer">
-              <p>Don't have an account? <Link to="/register">Register here</Link></p>
+              <p>
+                Don&apos;t have an account? <Link to="/register">Register here</Link>
+              </p>
             </div>
           </div>
         </div>

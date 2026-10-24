@@ -1,0 +1,168 @@
+.bh-ig {
+  background: #000;
+  color: #fff;
+  padding: 5.75rem 0 3.75rem;
+  overflow: hidden;
+  scroll-margin-top: 5.5rem;
+}
+
+.bh-ig__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 1.5rem 2.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.bh-ig__title {
+  margin: 0;
+  font-family: "Outfit", "Montserrat", sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.15rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-transform: lowercase;
+}
+
+.bh-ig__handle {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.bh-ig__heading:hover .bh-ig__handle {
+  color: #fff;
+}
+
+.bh-ig__row {
+  position: relative;
+}
+
+.bh-ig__scroller {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 0 4.5rem;
+}
+
+.bh-ig__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.bh-ig__card {
+  position: relative;
+  flex: 0 0 clamp(15.5rem, 22vw, 20.75rem);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #111;
+  scroll-snap-align: start;
+}
+
+.bh-ig__card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.58));
+  pointer-events: none;
+}
+
+.bh-ig__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.bh-ig__card:hover img {
+  transform: scale(1.04);
+}
+
+.bh-ig__meta {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.bh-ig__meta i {
+  font-size: 0.62rem;
+}
+
+.bh-ig__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3.15rem;
+  height: 3.15rem;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  transform: translateY(-50%);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.bh-ig__arrow--prev {
+  left: 1.15rem;
+}
+
+.bh-ig__arrow--next {
+  right: 1.15rem;
+}
+
+.bh-ig__arrow:hover {
+  background: #f3f3f3;
+}
+
+@media (max-width: 700px) {
+  .bh-ig {
+    padding: 3.25rem 0 2.75rem;
+  }
+
+  .bh-ig__heading {
+    margin-bottom: 1.75rem;
+  }
+
+  .bh-ig__scroller {
+    padding: 0 1rem;
+    gap: 0.65rem;
+  }
+
+  .bh-ig__card {
+    flex-basis: 13.25rem;
+  }
+
+  .bh-ig__arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .bh-ig__arrow--prev {
+    left: 0.45rem;
+  }
+
+  .bh-ig__arrow--next {
+    right: 0.45rem;
+  }
+}

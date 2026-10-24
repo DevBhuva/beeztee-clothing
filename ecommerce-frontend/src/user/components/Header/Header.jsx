@@ -1,141 +1,112 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useSiteSettings } from "../../../context/SiteSettingsContext";
 import "./Header.css";
 
+const brandLogo = "/logo.png";
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
   const { settings } = useSiteSettings();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const brandName = settings?.siteName || "Beeztee";
 
   useEffect(() => {
-    // Navbar scroll effect
-    const handleScroll = () => {
-      const navbar = document.getElementById("navbar");
-      if (navbar) {
-        if (window.scrollY > 100) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleCart = () => {
-    if (isAuthenticated) {
-      navigate('/cart');
-    } else {
-      navigate('/login');
-    }
-  };
+  const headerSolid = !isHome || scrolled;
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuOpen && !event.target.closest(".user-menu-container")) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [userMenuOpen]);
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const handleLogout = () => {
     logout();
     setUserMenuOpen(false);
-    navigate('/');
+    navigate("/");
   };
 
-  const toggleUserMenu = () => {
-    setUserMenuOpen(!userMenuOpen);
+  const toggleCart = () => {
+    navigate(isAuthenticated ? "/cart" : "/login");
   };
 
-  // Close user menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuOpen && !event.target.closest('.user-menu-container')) {
-        setUserMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [userMenuOpen]);
+  const navItems = [
+    { to: "/", label: "Hub", end: true },
+    { to: "/shop", label: "Vault" },
+    { to: "/sale", label: "Archive" },
+    { to: "/about", label: "Ethos" },
+    { to: "/contact", label: "Hit us up" },
+  ];
 
   return (
-    <nav id="navbar">
+    <nav id="navbar" className={headerSolid ? "scrolled" : ""}>
       <div className="nav-container">
-        <div className="logo">{settings?.siteName || 'Beestee'}</div>
-
-        {/* Mobile Menu Toggle */}
-        <div
-          className={`mobile-menu-toggle ${mobileMenuOpen ? "active" : ""}`}
-          onClick={toggleMobileMenu}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        <Link to="/" className="logo" onClick={closeMobileMenu} aria-label={brandName}>
+          <img src={brandLogo} alt={brandName} className="logo-img" />
+        </Link>
 
         <ul className={`nav-links ${mobileMenuOpen ? "active" : ""}`}>
-          <li>
-            <Link to="/" className="active" onClick={closeMobileMenu}>
-              HOME
-            </Link>
-          </li>
-          <li>
-            <Link to="/shop" onClick={closeMobileMenu}>
-              SHOP
-            </Link>
-          </li>
-          {/* <li>
-            <Link to="/men" onClick={closeMobileMenu}>
-              MEN
-            </Link>
-          </li>
-          <li>
-            <Link to="/women" onClick={closeMobileMenu}>
-              WOMEN
-            </Link>
-          </li> */}
-          <li>
-            <Link to="/sale" onClick={closeMobileMenu}>
-              SALE
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" onClick={closeMobileMenu}>
-              ABOUT
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" onClick={closeMobileMenu}>
-              CONTACT
-            </Link>
-          </li>
+          {navItems.map((item) => (
+            <li key={item.to}>
+              <NavLink
+                to={item.to}
+                end={item.end}
+                onClick={closeMobileMenu}
+                className={({ isActive }) => (isActive ? "active" : undefined)}
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
-        <div className="nav-icons">
+        <div className="nav-actions">
           {isAuthenticated ? (
             <div className="user-menu-container">
-              <div className="user-icon logged-in" onClick={toggleUserMenu}>
+              <button
+                type="button"
+                className="nav-icon-btn user-icon logged-in"
+                onClick={() => setUserMenuOpen((open) => !open)}
+                aria-label="Account menu"
+              >
                 <i className="fas fa-user"></i>
-              </div>
+              </button>
               {userMenuOpen && (
                 <div className="user-dropdown">
                   <div className="user-info">
                     <p className="user-name">{user?.name}</p>
                     <p className="user-email">{user?.email}</p>
                   </div>
-                  <div className="user-menu-divider"></div>
                   <ul className="user-menu-items">
                     <li>
                       <Link to="/profile" onClick={() => setUserMenuOpen(false)}>
@@ -143,10 +114,8 @@ export default function Header() {
                         My Profile
                       </Link>
                     </li>
-                   
-                   
                     <li>
-                      <button onClick={handleLogout} className="logout-btn">
+                      <button type="button" onClick={handleLogout} className="logout-btn">
                         <i className="fas fa-sign-out-alt"></i>
                         Logout
                       </button>
@@ -157,32 +126,60 @@ export default function Header() {
             </div>
           ) : (
             <div className="auth-buttons">
-              <Link to="/login" className="login-btn">
+              <Link to="/login" className="login-btn" aria-label="Login">
                 <i className="fas fa-sign-in-alt"></i>
                 <span>Login</span>
               </Link>
-              <Link to="/register" className="register-btn">
-                <i className="fas fa-user-plus"></i>
-                <span>Register</span>
+              <Link to="/register" className="register-btn" aria-label="Register">
+                <span>Join</span>
               </Link>
             </div>
           )}
-          
-          {/* Wishlist Icon */}
+
           {isAuthenticated && (
-            <div className="wishlist-icon" onClick={() => navigate('/wishlist')}>
+            <button
+              type="button"
+              className="nav-icon-btn wishlist-icon"
+              onClick={() => navigate("/wishlist")}
+              aria-label="Wishlist"
+            >
               <i className="fas fa-heart"></i>
               {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
-            </div>
+            </button>
           )}
-          
-          {/* Cart Icon */}
-          <div className="cart-icon" onClick={toggleCart}>
+
+          <button
+            type="button"
+            className="nav-icon-btn cart-icon"
+            onClick={toggleCart}
+            aria-label="Cart"
+          >
             <i className="fas fa-shopping-bag"></i>
             {cartCount > 0 && <span className="badge">{cartCount}</span>}
-          </div>
+          </button>
+
+          <button
+            type="button"
+            className={`mobile-menu-toggle ${mobileMenuOpen ? "active" : ""}`}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
+
+      {mobileMenuOpen && (
+        <button
+          type="button"
+          className="nav-backdrop"
+          aria-label="Close menu"
+          onClick={closeMobileMenu}
+        />
+      )}
     </nav>
   );
 }

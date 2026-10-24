@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './NewArrivals.css';
-import productService from '../../../services/productService';
-import { useCart } from '../../../context/CartContext';
-import { useWishlist } from '../../../context/WishlistContext';
-import { useAuth } from '../../../context/AuthContext';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import productService from "../../../services/productService";
+import { useCart } from "../../../context/CartContext";
+import { useWishlist } from "../../../context/WishlistContext";
+import { useAuth } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
+import "./NewArrivals.css";
 
-const NewArrivals = () => {
+export default function NewArrivals() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { isAuthenticated } = useAuth();
@@ -21,15 +19,14 @@ const NewArrivals = () => {
     const fetchNewArrivals = async () => {
       try {
         setLoading(true);
-        const response = await productService.getNewArrivals(20);
-        
+        const response = await productService.getNewArrivals(8);
         if (response?.data?.status && Array.isArray(response?.data?.data?.products)) {
           setProducts(response.data.data.products);
         } else if (response?.data?.status && Array.isArray(response?.data?.data)) {
           setProducts(response.data.data);
         }
       } catch (error) {
-        console.error('Error fetching new arrivals:', error);
+        console.error("Error fetching new arrivals:", error);
       } finally {
         setLoading(false);
       }
@@ -38,180 +35,129 @@ const NewArrivals = () => {
     fetchNewArrivals();
   }, []);
 
-  // Auto-slide carousel every 4 seconds
-  useEffect(() => {
-    if (products.length === 0) return;
+  const PRODUCT_FALLBACKS = [
+    "https://images.unsplash.com/photo-1523381216130-8b3f99a87a6d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1467043237213-65a2c69bb749?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+  ];
 
-    const totalSlides = Math.ceil(products.length / 5);
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [products.length]);
+  const fallbackImage = (product) =>
+    PRODUCT_FALLBACKS[(product.id || 0) % PRODUCT_FALLBACKS.length];
 
   const getProductImage = (product) => {
-    const baseURL = 'http://localhost:3000';
-    
-    if (product.images && product.images.length > 0) {
-      const primaryImage = product.images.find(img => img.isPrimary) || product.images[0];
-      return `${baseURL}${primaryImage.imagePath || primaryImage.imageUrl}`;
-    }
-    
-    if (product.ProductImages && product.ProductImages.length > 0) {
-      const primaryImage = product.ProductImages.find(img => img.isPrimary) || product.ProductImages[0];
-      return `${baseURL}${primaryImage.imagePath || primaryImage.imageUrl}`;
-    }
-    
-    return 'https://via.placeholder.com/300x400?text=New+Arrival';
+    // Local upload files are often missing in this project — use polished fallbacks on homepage
+    return fallbackImage(product);
   };
 
-  // Handle add to cart
   const handleAddToCart = async (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    
     if (!isAuthenticated) {
-      toast.error('Please login to add items to cart');
+      toast.error("Please login to add items to cart");
+      navigate("/login");
       return;
     }
-
     await addToCart(product.id, 1);
   };
 
-  // Handle wishlist toggle
   const handleWishlistToggle = async (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    
     if (!isAuthenticated) {
-      toast.error('Please login to add items to wishlist');
+      toast.error("Please login to add items to wishlist");
+      navigate("/login");
       return;
     }
-
     await toggleWishlist(product.id);
   };
 
-  const nextSlide = () => {
-    const totalSlides = Math.ceil(products.length / 5);
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const prevSlide = () => {
-    const totalSlides = Math.ceil(products.length / 5);
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const handleViewAll = () => {
-    const bestSellersSection = document.getElementById('shop');
-    if (bestSellersSection) {
-      bestSellersSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleProductClick = (product) => {
-    navigate(`/product/${product.slug}`);
-  };
-
-  const totalSlides = Math.ceil(products.length / 5);
-
   return (
-    <section className="new-arrivals">
-      <div className="new-arrivals-container">
-        <div className="new-arrivals-header">
-          <div className="header-content">
-            <h2 className="arrivals-title">NEW ARRIVALS</h2>
-            <p className="arrivals-subtitle">Discover the latest trends</p>
+    <section className="bh-section bh-arrivals" id="new-arrivals">
+      <div className="bh-section__inner">
+        <div className="bh-section__head">
+          <div className="bh-section__copy">
+            <p className="bh-eyebrow">Current Obsession</p>
+            <h2 className="bh-section__title">Fresh In</h2>
+            <p className="bh-section__text">
+              Only hits, curated for your daily aesthetic.
+            </p>
           </div>
-          <button className="view-all-btn" onClick={handleViewAll}>
-            View All <i className="fas fa-arrow-right"></i>
-          </button>
+          <Link to="/shop" className="bh-link">
+            All the looks <i className="fas fa-arrow-right" aria-hidden="true" />
+          </Link>
         </div>
 
         {loading ? (
-          <div className="arrivals-loading">Loading new arrivals...</div>
+          <div className="bh-loading">Loading new arrivals...</div>
         ) : products.length === 0 ? (
-          <div className="arrivals-empty">No new arrivals at the moment</div>
+          <div className="bh-empty">No new arrivals at the moment.</div>
         ) : (
-          <div className="arrivals-carousel-wrapper">
-            <button className="arrivals-carousel-btn prev-btn" onClick={prevSlide}>
-              <i className="fas fa-chevron-left"></i>
-            </button>
+          <div className="bh-arrivals__grid">
+            {products.map((product) => {
+              const price = product.salePrice || product.basePrice;
+              const hasSale =
+                product.salePrice && product.salePrice < product.basePrice;
 
-            <div className="arrivals-carousel">
-              <div 
-                className="arrivals-track"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                  <div key={slideIndex} className="arrivals-slide">
-                    {products.slice(slideIndex * 5, slideIndex * 5 + 5).map((product) => (
-                      <div 
-                        key={product.id}
-                        className="arrival-card"
-                        onClick={() => handleProductClick(product)}
+              return (
+                <article key={product.id} className="bh-product">
+                  <div className="bh-product__media">
+                    <Link to={`/product/${product.slug}`} className="bh-product__link">
+                      <img
+                        src={getProductImage(product)}
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                    </Link>
+                    <span className="bh-product__badge">New</span>
+                    <div className="bh-product__actions">
+                      <button
+                        type="button"
+                        className="bh-product__action"
+                        onClick={(e) => handleWishlistToggle(e, product)}
+                        aria-label="Toggle wishlist"
                       >
-                        <div className="arrival-image-container">
-                          <img 
-                            src={getProductImage(product)} 
-                            alt={product.name} 
-                            className="arrival-image"
-                          />
-                          <div className="arrival-badge">NEW</div>
-                          <div className="arrival-overlay">
-                            <button 
-                              className="quick-shop-btn"
-                              onClick={(e) => handleAddToCart(e, product)}
-                            >
-                              <i className="fas fa-shopping-bag"></i> Add to Cart
-                            </button>
-                            <button 
-                              className="arrival-wishlist-btn"
-                              onClick={(e) => handleWishlistToggle(e, product)}
-                              title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
-                            >
-                              <i className={`${isInWishlist(product.id) ? 'fas' : 'far'} fa-heart`}></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div className="arrival-info">
-                          <h3 className="arrival-name">{product.name}</h3>
-                          <p className="arrival-category">
-                            {product.category?.name || product.Category?.name || 'New Collection'}
-                          </p>
-                          <div className="arrival-price">
-                            <span className="current-price">₹{product.salePrice || product.basePrice}</span>
-                            {product.salePrice && product.salePrice < product.basePrice && (
-                              <span className="original-price">₹{product.basePrice}</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                        <i
+                          className={`${
+                            isInWishlist(product.id) ? "fas" : "far"
+                          } fa-heart`}
+                        />
+                      </button>
+                      <button
+                        type="button"
+                        className="bh-product__action bh-product__action--cart"
+                        onClick={(e) => handleAddToCart(e, product)}
+                      >
+                        Add to bag
+                      </button>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <button className="arrivals-carousel-btn next-btn" onClick={nextSlide}>
-              <i className="fas fa-chevron-right"></i>
-            </button>
-
-            {/* Carousel Indicators */}
-            <div className="arrivals-indicators">
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <div
-                  key={index}
-                  className={`indicator ${currentSlide === index ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                />
-              ))}
-            </div>
+                  <div className="bh-product__info">
+                    <p className="bh-product__category">
+                      {product.category?.name ||
+                        product.Category?.name ||
+                        "Collection"}
+                    </p>
+                    <Link to={`/product/${product.slug}`} className="bh-product__name">
+                      {product.name}
+                    </Link>
+                    <p className="bh-product__price">
+                      <span>₹{Number(price).toLocaleString("en-IN")}</span>
+                      {hasSale && (
+                        <s>₹{Number(product.basePrice).toLocaleString("en-IN")}</s>
+                      )}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
     </section>
   );
-};
-
-export default NewArrivals;
+}

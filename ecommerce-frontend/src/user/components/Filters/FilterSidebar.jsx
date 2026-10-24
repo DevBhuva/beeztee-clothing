@@ -79,13 +79,6 @@ const FilterSidebar = ({ className = '' }) => {
                     />
                     <span className="filter-checkbox-label">
                       {category.name}
-                      {category.image && (
-                        <img 
-                          src={`http://localhost:3000${category.image}`} 
-                          alt={category.name} 
-                          className="category-icon"
-                        />
-                      )}
                     </span>
                   </label>
                 ))}
@@ -151,13 +144,6 @@ const FilterSidebar = ({ className = '' }) => {
                     />
                     <span className="filter-checkbox-label">
                       {brand.name}
-                      {brand.logo && (
-                        <img 
-                          src={`http://localhost:3000${brand.logo}`} 
-                          alt={brand.name} 
-                          className="brand-logo-small"
-                        />
-                      )}
                     </span>
                   </label>
                 ))}

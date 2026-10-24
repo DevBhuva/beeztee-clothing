@@ -1,18 +1,19 @@
 import React from 'react';
+import { getPrimaryProductImage } from '../../../utils/productImage';
 import './StickyAddToCart.css';
 
 const StickyAddToCart = ({ product, currentPrice, isInStock, onAddToCart, onBuyNow, addingToCart }) => {
+  const imageUrl = getPrimaryProductImage(product);
+
   return (
     <div className="sticky-add-to-cart">
       <div className="sticky-container">
         <div className="sticky-product-info">
-          {product.images && product.images[0] && (
-            <img
-              src={`http://localhost:3000${product.images[0].imagePath}`}
-              alt={product.name}
-              className="sticky-product-image"
-            />
-          )}
+          <img
+            src={imageUrl}
+            alt={product.name}
+            className="sticky-product-image"
+          />
           <div className="sticky-product-details">
             <h4>{product.name}</h4>
             <span className="sticky-price">₹{currentPrice.toFixed(2)}</span>
@@ -25,14 +26,14 @@ const StickyAddToCart = ({ product, currentPrice, isInStock, onAddToCart, onBuyN
             onClick={onAddToCart}
             disabled={!isInStock || addingToCart}
           >
-            {addingToCart ? 'Adding...' : 'Add to Cart'}
+            {addingToCart ? 'Adding...' : 'Bag it'}
           </button>
           <button
             className="btn btn-secondary"
             onClick={onBuyNow}
             disabled={!isInStock}
           >
-            Buy Now
+            Claim it
           </button>
         </div>
       </div>

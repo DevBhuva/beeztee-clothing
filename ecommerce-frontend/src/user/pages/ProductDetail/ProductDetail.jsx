@@ -378,6 +378,7 @@ const ProductDetail = () => {
             <div className="pd-gallery-wrapper">
               <ImageGallery
                 images={product.images || []}
+                productId={product.id}
                 selectedImage={selectedImage}
                 onImageSelect={setSelectedImage}
                 productName={product.name}

@@ -1,239 +1,194 @@
-/* ImageGallery.css */
+/* ImageGallery — Beestee (matches ImageGallery.jsx class names) */
 
-.product-image-gallery {
+.image-gallery {
+  font-family: var(--bh-font-body, "Outfit", sans-serif);
   position: sticky;
-  top: 20px;
+  top: 6rem;
   height: fit-content;
 }
 
-.gallery-main-image {
+.image-gallery .main-image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 1;
-  background: #f5f5f5;
-  border-radius: 12px;
+  aspect-ratio: 3 / 4;
+  max-height: min(72vh, 720px);
+  background: var(--bh-soft, #efe9df);
+  border-radius: 0;
   overflow: hidden;
   cursor: zoom-in;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
-.gallery-main-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.image-gallery .main-image {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+  display: block;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   transition: transform 0.3s ease;
-}
-
-.gallery-main-image.zoomed {
-  cursor: zoom-out;
-}
-
-.gallery-main-image.zoomed img {
-  transform: scale(2);
 }
 
 .primary-badge {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  background: #2e7d32;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  top: 0.85rem;
+  left: 0.85rem;
+  background: var(--bh-accent, #c4862f);
+  color: var(--bh-ink, #1a1612);
+  padding: 0.35rem 0.65rem;
+  border-radius: 0;
+  font-size: 0.65rem;
   font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
   z-index: 2;
 }
 
 .zoom-hint {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: rgba(0,0,0,0.7);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  background: rgba(18, 16, 14, 0.75);
+  color: #f7f3ec;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0;
+  font-size: 0.72rem;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.4rem;
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
   z-index: 2;
 }
 
-.gallery-main-image:hover .zoom-hint {
+.main-image-container:hover .zoom-hint {
   opacity: 1;
 }
 
-/* Thumbnail Strip */
-.gallery-thumbnails {
+.thumbnails-container {
+  width: 100%;
+}
+
+.thumbnails-scroll {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   overflow-x: auto;
-  padding: 8px 0;
+  padding: 0.25rem 0;
   scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
 }
 
-.gallery-thumbnails::-webkit-scrollbar {
-  height: 6px;
-}
-
-.gallery-thumbnails::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-
-.gallery-thumbnail {
+.thumbnail {
   flex-shrink: 0;
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
+  width: 4.5rem;
+  height: 5.5rem;
+  padding: 0;
+  border: 1px solid transparent;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s;
-  background: #f5f5f5;
+  background: var(--bh-soft, #efe9df);
+  transition: border-color 0.2s ease;
 }
 
-.gallery-thumbnail img {
+.thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.gallery-thumbnail:hover {
-  border-color: #2e7d32;
-  transform: translateY(-2px);
+.thumbnail:hover,
+.thumbnail.active {
+  border-color: var(--bh-accent, #c4862f);
 }
 
-.gallery-thumbnail.active {
-  border-color: #2e7d32;
-  box-shadow: 0 0 0 2px rgba(46,125,50,0.2);
-}
-
-/* Lightbox Modal */
-.lightbox-modal {
+/* Lightbox */
+.lightbox-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.95);
+  inset: 0;
+  background: rgba(18, 16, 14, 0.9);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.2s;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  padding: 1.5rem;
 }
 
 .lightbox-content {
   position: relative;
-  max-width: 90vw;
+  max-width: min(900px, 92vw);
   max-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .lightbox-image {
   max-width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   object-fit: contain;
-  border-radius: 8px;
+  display: block;
 }
 
 .lightbox-close,
-.lightbox-prev,
-.lightbox-next {
+.lightbox-nav {
   position: absolute;
-  background: rgba(255,255,255,0.9);
-  border: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  border: 1px solid rgba(247, 243, 236, 0.3);
+  background: rgba(18, 16, 14, 0.7);
+  color: #f7f3ec;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  color: #333;
-  transition: all 0.2s;
-  z-index: 10;
 }
 
 .lightbox-close {
-  top: 20px;
-  right: 20px;
+  top: -2.5rem;
+  right: 0;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
-.lightbox-prev {
-  left: 20px;
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
-.lightbox-next {
-  right: 20px;
+.lightbox-nav.prev {
+  left: -3.25rem;
 }
 
-.lightbox-close:hover,
-.lightbox-prev:hover,
-.lightbox-next:hover {
-  background: #fff;
-  transform: scale(1.1);
+.lightbox-nav.next {
+  right: -3.25rem;
+}
+
+.lightbox-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .lightbox-counter {
   position: absolute;
-  bottom: 20px;
+  bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255,255,255,0.9);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .product-image-gallery {
-    position: static;
-  }
+  color: rgba(247, 243, 236, 0.75);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
 }
 
 @media (max-width: 768px) {
-  .gallery-thumbnail {
-    width: 60px;
-    height: 60px;
+  .image-gallery {
+    position: static;
   }
 
-  .lightbox-close,
-  .lightbox-prev,
-  .lightbox-next {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-thumbnails {
-    gap: 8px;
+  .lightbox-nav.prev {
+    left: 0.5rem;
   }
 
-  .gallery-thumbnail {
-    width: 50px;
-    height: 50px;
+  .lightbox-nav.next {
+    right: 0.5rem;
   }
 }

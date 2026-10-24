@@ -5,6 +5,9 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './ContactUs.css';
 
+const SUPPORT_EMAIL = 'support@beeztee.com';
+const CLOTHING_EMAIL = 'beezteeclothing@gmail.com';
+
 const ContactUs = () => {
   const { settings } = useSiteSettings();
   const [formData, setFormData] = useState({
@@ -13,16 +16,33 @@ const ContactUs = () => {
     email: '',
     phone: '',
     subject: '',
-    message: ''
+    message: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
 
+  const extraEmail =
+    settings?.contactEmail &&
+    ![SUPPORT_EMAIL, CLOTHING_EMAIL].includes(settings.contactEmail)
+      ? settings.contactEmail
+      : null;
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
     });
   };
 
@@ -32,36 +52,39 @@ const ContactUs = () => {
     setSubmitMessage({ type: '', text: '' });
 
     try {
-      const response = await axios.post('http://localhost:3000/api/contacts', formData);
-      
-      if (response.data.success) {
-        setSubmitMessage({ 
-          type: 'success', 
-          text: response.data.message 
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const response = await axios.post(`${apiBase}/contacts`, formData);
+
+      if (response.data.success || response.data.status) {
+        setSubmitMessage({
+          type: 'success',
+          text: response.data.message || 'Message sent. We will reply within 24 hours.',
         });
-        
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        });
+        resetForm();
       }
     } catch (error) {
-      setSubmitMessage({ 
-        type: 'error', 
-        text: error.response?.data?.message || 'Something went wrong. Please try again.' 
+      const body = [
+        `Name: ${formData.firstName} ${formData.lastName}`,
+        `Email: ${formData.email}`,
+        formData.phone ? `Phone: ${formData.phone}` : '',
+        '',
+        formData.message,
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      window.location.href = `mailto:${SUPPORT_EMAIL}?cc=${CLOTHING_EMAIL}&subject=${encodeURIComponent(
+        formData.subject || 'Beeztee enquiry'
+      )}&body=${encodeURIComponent(body)}`;
+
+      setSubmitMessage({
+        type: 'success',
+        text: 'Opening your email app to reach support@beeztee.com and beezteeclothing@gmail.com.',
       });
+      resetForm();
     } finally {
       setIsSubmitting(false);
-      
-      // Clear message after 5 seconds
-      setTimeout(() => {
-        setSubmitMessage({ type: '', text: '' });
-      }, 5000);
+      setTimeout(() => setSubmitMessage({ type: '', text: '' }), 6000);
     }
   };
 
@@ -69,187 +92,162 @@ const ContactUs = () => {
     <>
       <Header />
       <div className="contact-us-page">
-        {/* Contact Options Section */}
+        <section className="contact-hero">
+          <p className="contact-eyebrow">Hit us up</p>
+          <h1>Drop a line</h1>
+          <p className="contact-lead">
+            Hit us with your thoughts — we’ll be in touch before you know it.
+          </p>
+        </section>
+
         <section className="contact-options">
-          <div className="page-title-section">
-            <h1 className="page-main-title">Contact Us</h1>
-            <p className="page-subtitle">We'd love to hear from you</p>
-          </div>
           <div className="container">
             <div className="options-grid">
-              {settings.contactEmail && (
-                <div className="contact-card" onClick={() => window.location.href = `mailto:${settings.contactEmail}`}>
-                  <div className="contact-icon">
-                    <i className="fas fa-envelope"></i>
-                  </div>
-                  <h3 className="contact-title">Email Us</h3>
-                  <p className="contact-info">Send us an email and we'll respond within 24 hours</p>
-                  <a href={`mailto:${settings.contactEmail}`} className="contact-action">
-                    {settings.contactEmail} <i className="fas fa-arrow-right"></i>
-                  </a>
+              <a className="contact-card" href={`mailto:${SUPPORT_EMAIL}`}>
+                <div className="contact-icon">
+                  <i className="fas fa-headset"></i>
                 </div>
-              )}
-              {settings.contactPhone && (
-                <div className="contact-card" onClick={() => window.location.href = `tel:${settings.contactPhone}`}>
+                <h3 className="contact-title">Customer Support</h3>
+                <p className="contact-info">Orders, returns, and product questions</p>
+                <span className="contact-action">
+                  {SUPPORT_EMAIL} <i className="fas fa-arrow-right"></i>
+                </span>
+              </a>
+
+              <a className="contact-card" href={`mailto:${CLOTHING_EMAIL}`}>
+                <div className="contact-icon">
+                  <i className="fas fa-envelope"></i>
+                </div>
+                <h3 className="contact-title">Clothing Desk</h3>
+                <p className="contact-info">Wholesale, styling, and brand enquiries</p>
+                <span className="contact-action">
+                  {CLOTHING_EMAIL} <i className="fas fa-arrow-right"></i>
+                </span>
+              </a>
+
+              {settings?.contactPhone && (
+                <a className="contact-card" href={`tel:${settings.contactPhone}`}>
                   <div className="contact-icon">
                     <i className="fas fa-phone"></i>
                   </div>
                   <h3 className="contact-title">Call Us</h3>
                   <p className="contact-info">Monday to Friday, 9am to 6pm</p>
-                  <a href={`tel:${settings.contactPhone}`} className="contact-action">
+                  <span className="contact-action">
                     {settings.contactPhone} <i className="fas fa-arrow-right"></i>
-                  </a>
-                </div>
+                  </span>
+                </a>
               )}
-              {settings.whatsappNumber && (
-                <div className="contact-card" onClick={() => window.open(`https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}`, '_blank')}>
+
+              {extraEmail && (
+                <a className="contact-card" href={`mailto:${extraEmail}`}>
                   <div className="contact-icon">
-                    <i className="fab fa-whatsapp"></i>
+                    <i className="fas fa-at"></i>
                   </div>
-                  <h3 className="contact-title">WhatsApp</h3>
-                  <p className="contact-info">Quick responses for urgent inquiries</p>
-                  <a href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}`} className="contact-action" target="_blank" rel="noopener noreferrer">
-                    Start Chat <i className="fas fa-arrow-right"></i>
-                  </a>
-                </div>
+                  <h3 className="contact-title">Also reach us</h3>
+                  <p className="contact-info">Additional inbox from store settings</p>
+                  <span className="contact-action">
+                    {extraEmail} <i className="fas fa-arrow-right"></i>
+                  </span>
+                </a>
               )}
             </div>
           </div>
         </section>
 
-      {/* Contact Form Section */}
-      <section className="contact-form-section">
-        <div className="form-container">
-          <div className="form-header">
-            <h2 className="form-title">Send Us a Message</h2>
-            <p className="form-subtitle">Fill out the form below and we'll get back to you as soon as possible</p>
-          </div>
-          
-          {submitMessage.text && (
-            <div className={`submit-message ${submitMessage.type}`}>
-              {submitMessage.text}
+        <section className="contact-form-section">
+          <div className="form-container">
+            <div className="form-header">
+              <h2 className="form-title">Send a message</h2>
+              <p className="form-subtitle">
+                Your note goes to {SUPPORT_EMAIL} and {CLOTHING_EMAIL}.
+              </p>
             </div>
-          )}
 
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input 
-                type="text" 
-                className="form-input" 
-                id="firstName" 
-                placeholder=" " 
-                value={formData.firstName}
-                onChange={handleChange}
-                required 
-              />
-              <label className="form-label" htmlFor="firstName">First Name</label>
-            </div>
-            <div className="form-group">
-              <input 
-                type="text" 
-                className="form-input" 
-                id="lastName" 
-                placeholder=" " 
-                value={formData.lastName}
-                onChange={handleChange}
-                required 
-              />
-              <label className="form-label" htmlFor="lastName">Last Name</label>
-            </div>
-            <div className="form-group">
-              <input 
-                type="email" 
-                className="form-input" 
-                id="email" 
-                placeholder=" " 
-                value={formData.email}
-                onChange={handleChange}
-                required 
-              />
-              <label className="form-label" htmlFor="email">Email Address</label>
-            </div>
-            <div className="form-group">
-              <input 
-                type="tel" 
-                className="form-input" 
-                id="phone" 
-                placeholder=" " 
-                value={formData.phone}
-                onChange={handleChange}
-              />
-              <label className="form-label" htmlFor="phone">Phone Number</label>
-            </div>
-            <div className="form-group full-width">
-              <input 
-                type="text" 
-                className="form-input" 
-                id="subject" 
-                placeholder=" " 
-                value={formData.subject}
-                onChange={handleChange}
-                required 
-              />
-              <label className="form-label" htmlFor="subject">Subject</label>
-            </div>
-            <div className="form-group full-width">
-              <textarea 
-                className="form-textarea" 
-                id="message" 
-                placeholder=" " 
-                value={formData.message}
-                onChange={handleChange}
-                required
-              ></textarea>
-              <label className="form-label" htmlFor="message">Your Message</label>
-            </div>
-            <button type="submit" className="submit-btn" disabled={isSubmitting}>
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
-        </div>
-      </section>
+            {submitMessage.text && (
+              <div className={`submit-message ${submitMessage.type}`}>
+                {submitMessage.text}
+              </div>
+            )}
 
-      {/* Social Section */}
-      <section className="social-section">
-        <div className="social-container">
-          <h2 className="social-title">Connect With Us</h2>
-          <p className="social-description">Follow us on social media for style inspiration, new arrivals, and exclusive offers</p>
-          <div className="social-links">
-            {settings.facebookUrl && (
-              <a href={settings.facebookUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-            )}
-            {settings.instagramUrl && (
-              <a href={settings.instagramUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-instagram"></i>
-              </a>
-            )}
-            {settings.pinterestUrl && (
-              <a href={settings.pinterestUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-pinterest"></i>
-              </a>
-            )}
-            {settings.twitterUrl && (
-              <a href={settings.twitterUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-twitter"></i>
-              </a>
-            )}
-            {settings.youtubeUrl && (
-              <a href={settings.youtubeUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-youtube"></i>
-              </a>
-            )}
-            {settings.tiktokUrl && (
-              <a href={settings.tiktokUrl} className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-tiktok"></i>
-              </a>
-            )}
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-input"
+                  id="firstName"
+                  placeholder=" "
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+                <label className="form-label" htmlFor="firstName">First Name</label>
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-input"
+                  id="lastName"
+                  placeholder=" "
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+                <label className="form-label" htmlFor="lastName">Last Name</label>
+              </div>
+              <div className="form-group">
+                <input
+                  type="email"
+                  className="form-input"
+                  id="email"
+                  placeholder=" "
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+                <label className="form-label" htmlFor="email">Email Address</label>
+              </div>
+              <div className="form-group">
+                <input
+                  type="tel"
+                  className="form-input"
+                  id="phone"
+                  placeholder=" "
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+                <label className="form-label" htmlFor="phone">Phone Number</label>
+              </div>
+              <div className="form-group full-width">
+                <input
+                  type="text"
+                  className="form-input"
+                  id="subject"
+                  placeholder=" "
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                />
+                <label className="form-label" htmlFor="subject">Subject</label>
+              </div>
+              <div className="form-group full-width">
+                <textarea
+                  className="form-textarea"
+                  id="message"
+                  placeholder=" "
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
+                <label className="form-label" htmlFor="message">Your Message</label>
+              </div>
+              <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
           </div>
-        </div>
-      </section>
-    </div>
-    <Footer />
+        </section>
+      </div>
+      <Footer />
     </>
   );
 };

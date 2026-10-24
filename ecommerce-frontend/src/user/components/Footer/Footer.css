@@ -1,271 +1,198 @@
-/* --- General Footer Styles --- */
+/* Beestee footer */
 .site-footer {
-  background-color: #2c3e50; /* Dark, professional background */
-  color: #ecf0f1;           /* Light text for contrast */
-  padding: 60px 0 20px;
-  font-size: 15px;
-  line-height: 1.6;
+  background: #12100e;
+  color: rgba(247, 243, 236, 0.78);
+  padding: 4.5rem 0 1.5rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
-.container {
-  max-width: 1200px;
+.site-footer .container {
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 1.5rem;
 }
 
-.footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px; /* Space between sections */
+.site-footer .footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(4, minmax(0, 1fr));
+  gap: 2.25rem;
 }
 
-.footer-section {
-  flex: 1;
-  min-width: 200px; /* Prevents sections from becoming too narrow */
+.site-footer .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1rem;
+  background: #fff;
+  border-radius: 50%;
+  width: 4.25rem;
+  height: 4.25rem;
+  padding: 0.25rem;
 }
 
-/* --- Section Specific Styles --- */
-
-/* Logo & About */
-.footer-section.about h2 {
-  color: #ffffff;
-  font-size: 28px;
-  margin-bottom: 15px;
+.site-footer .footer-logo-img {
+  height: 3.6rem;
+  width: 3.6rem;
+  max-width: none;
+  object-fit: contain;
 }
 
-.footer-section.about p {
-  margin-bottom: 20px;
+.site-footer .footer-section.about p {
+  margin: 0 0 1.25rem;
+  max-width: 22rem;
+  color: rgba(247, 243, 236, 0.65);
+  font-weight: 300;
 }
 
-.social-icons {
+.site-footer .social-icons {
   list-style: none;
+  margin: 0;
   padding: 0;
   display: flex;
-  gap: 15px;
+  gap: 0.85rem;
 }
 
-.social-icons a {
-  color: #ecf0f1;
-  font-size: 20px;
-  transition: color 0.3s ease;
+.site-footer .social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(247, 243, 236, 0.18);
+  color: #f7f3ec;
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
 
-.social-icons a:hover {
-  color: #3498db; /* Accent color on hover */
+.site-footer .social-icons a:hover {
+  border-color: #c4862f;
+  color: #c4862f;
+  background: rgba(196, 134, 47, 0.08);
 }
 
-/* Links Sections */
-.footer-section.links h3 {
-  color: #ffffff;
-  font-size: 18px;
-  margin-bottom: 20px;
-  position: relative;
-  padding-bottom: 10px;
+.site-footer .footer-section h3 {
+  margin: 0 0 1.15rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  word-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #f7f3ec;
 }
 
-/* Add a subtle underline to headings */
-.footer-section.links h3::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 50px;
-  height: 2px;
-  background-color: #3498db;
+.site-footer .footer-section h3::after {
+  display: none;
 }
 
-.footer-section.links ul {
+.site-footer .footer-section.links ul {
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.footer-section.links ul li {
-  margin-bottom: 10px;
+.site-footer .footer-section.links li {
+  margin-bottom: 0.7rem;
 }
 
-.footer-section.links a {
-  color: #bdc3c7; /* Slightly dimmer text for links */
+.site-footer .footer-section.links a {
+  color: rgba(247, 243, 236, 0.62);
   text-decoration: none;
-  transition: color 0.3s ease, padding-left 0.3s ease;
+  transition: color 0.25s ease;
 }
 
-.footer-section.links a:hover {
-  color: #3498db;
-  padding-left: 5px; /* Subtle slide-in effect */
+.site-footer .footer-section.links a:hover {
+  color: #c4862f;
+  padding-left: 0;
 }
 
-/* Newsletter Section */
-.footer-section.newsletter h3 {
-  color: #ffffff;
-  font-size: 18px;
-  margin-bottom: 20px;
+.site-footer .footer-section.newsletter p {
+  margin: 0 0 0.7rem;
+  color: rgba(247, 243, 236, 0.62);
 }
 
-.footer-section.newsletter p {
-  margin-bottom: 20px;
-}
-
-.footer-section.newsletter form {
+.site-footer .footer-contact {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin: 0 0 0.85rem;
+  color: rgba(247, 243, 236, 0.72);
+  text-decoration: none;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
-.footer-section.newsletter input[type="email"] {
-  padding: 12px;
-  border: 1px solid #34495e;
-  background-color: #34495e;
-  border-radius: 4px;
-  color: #ecf0f1;
-  font-size: 15px;
-}
-
-.footer-section.newsletter input[type="email"]::placeholder {
-  color: #7f8c8d;
-}
-
-.footer-section.newsletter button {
-  padding: 12px 20px;
-  background-color: #3498db;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.footer-section.newsletter button:hover {
-  background-color: #2980b9;
-}
-
-/* --- Footer Bottom Bar --- */
-.footer-bottom {
+.site-footer .footer-contact i {
+  width: 1rem;
+  margin: 0.15rem 0 0;
+  flex-shrink: 0;
+  color: #c4862f;
   text-align: center;
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #34495e;
-  color: #7f8c8d;
-  font-size: 14px;
 }
 
-/* --- Responsive Design --- */
-@media (max-width: 1024px) {
-  .site-footer {
-    padding: 50px 0 20px;
-  }
-
-  .container {
-    padding: 0 30px;
-  }
-
-  .footer-content {
-    gap: 30px;
-  }
-
-  .footer-section.about h2 {
-    font-size: 24px;
-  }
+.site-footer .footer-contact span {
+  min-width: 0;
 }
 
-@media (max-width: 768px) {
-  .site-footer {
-    padding: 40px 0 20px;
-    font-size: 14px;
-  }
+.site-footer .footer-contact:hover {
+  color: #c4862f;
+}
 
-  .container {
-    padding: 0 20px;
-  }
+.site-footer .footer-bottom {
+  margin-top: 3rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgba(247, 243, 236, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
 
-  .footer-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 35px;
-  }
+.site-footer .footer-bottom p {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: rgba(247, 243, 236, 0.45);
+}
 
-  .footer-section {
-    width: 100%;
-    max-width: 400px;
-  }
+.site-footer .footer-bottom-links {
+  display: flex;
+  gap: 1.15rem;
+}
 
-  .footer-section.about h2 {
-    font-size: 22px;
-  }
+.site-footer .footer-bottom-links a {
+  color: rgba(247, 243, 236, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
 
-  .social-icons {
-    justify-content: center;
-  }
+.site-footer .footer-bottom-links a:hover {
+  color: #c4862f;
+}
 
-  .footer-section.links h3 {
-    font-size: 16px;
-  }
-
-  .footer-section.links h3::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .footer-section.newsletter h3 {
-    font-size: 16px;
+@media (max-width: 1100px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1.2fr 1fr 1fr;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 900px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
   .site-footer {
-    padding: 30px 0 15px;
-    font-size: 13px;
+    padding: 3.5rem 0 1.25rem;
   }
 
-  .container {
-    padding: 0 15px;
-  }
-
-  .footer-content {
-    gap: 25px;
-  }
-
-  .footer-section.about h2 {
-    font-size: 20px;
-  }
-
-  .footer-section.about p {
-    font-size: 13px;
-  }
-
-  .social-icons a {
-    font-size: 18px;
-  }
-
-  .footer-section.links h3 {
-    font-size: 15px;
-    margin-bottom: 15px;
-  }
-
-  .footer-section.links ul li {
-    margin-bottom: 8px;
-  }
-
-  .footer-section.links a {
-    font-size: 13px;
-  }
-
-  .footer-section.newsletter input[type="email"] {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .footer-section.newsletter button {
-    padding: 10px 18px;
-    font-size: 14px;
-  }
-
-  .footer-bottom {
-    font-size: 12px;
-    padding-top: 15px;
-    margin-top: 30px;
+  .site-footer .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }

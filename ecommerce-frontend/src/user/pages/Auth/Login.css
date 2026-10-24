@@ -2,11 +2,15 @@
 
 .auth-page {
   min-height: 100vh;
-  padding-top: 100px;
-  padding-bottom: 50px;
+  padding: 8.75rem 0 4.5rem;
   background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.auth-page.bh-page {
+  background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+  color: #f7f3ec;
 }
 
 .auth-page::before {
@@ -30,35 +34,53 @@
 }
 
 .auth-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 50px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2.5rem 2.25rem 2.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin: 0 0 2.25rem;
+}
+
+.auth-eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  word-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #c4862f;
 }
 
 .auth-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  color: #fff;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #C4862F 0%, #e91e63 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
+  margin: 0 0 0.85rem;
+  font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  word-spacing: 0.22em !important;
+  line-height: 1.15;
+  color: #f7f3ec;
+  background: none;
+  -webkit-text-fill-color: #f7f3ec;
 }
 
 .auth-header p {
-  font-family: 'Poppins', sans-serif;
-  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto;
+  max-width: 22rem;
+  font-family: "Outfit", sans-serif;
   font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  word-spacing: 0.22em;
+  color: rgba(247, 243, 236, 0.72);
 }
 
 /* Alert Messages */
@@ -106,45 +128,56 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 1.5rem;
 }
 
-.form-group {
+.auth-page .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
-.form-group label {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem;
+.auth-page .form-group label {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 0.3em;
+  width: max-content !important;
+  max-width: 100%;
+  margin: 0 0 0.15rem !important;
+  font-family: "Outfit", sans-serif !important;
+  font-weight: 500 !important;
+  color: rgba(247, 243, 236, 0.92) !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em !important;
+  word-spacing: 0.28em !important;
+  text-transform: uppercase;
 }
 
-.form-group .required {
+.auth-page .form-group .required {
+  margin: 0;
   color: #e91e63;
 }
 
-.input-group {
+.auth-page .input-group {
   position: relative;
   display: flex;
   align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.05rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  transition: all 0.3s ease;
+  box-shadow: none;
+  outline: none;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.input-group:hover {
+.auth-page .input-group:hover,
+.auth-page .input-group:focus-within {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.input-group:focus-within {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #C4862F;
-  box-shadow: 0 0 0 4px rgba(196, 134, 47, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: none;
 }
 
 .input-group.error {
@@ -156,29 +189,42 @@
   border-color: #4caf50;
 }
 
-.input-icon {
-  position: absolute;
-  left: 16px;
+.auth-page .input-icon {
+  position: static;
+  left: auto;
+  flex: 0 0 1.15rem;
+  width: 1.15rem;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  text-align: center;
   pointer-events: none;
 }
 
-.input-group input {
+.auth-page .form-group .input-group input,
+.auth-page .form-group .input-group input:focus,
+.auth-page .form-group .input-group input:focus-visible {
   flex: 1;
-  padding: 14px 16px 14px 50px;
+  width: 100%;
+  min-width: 0;
+  padding: 0.95rem 0.35rem 0.95rem 0 !important;
   background: transparent;
-  border: none;
+  border: none !important;
+  border-color: transparent !important;
   color: #ffffff !important;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1rem;
-  outline: none;
+  letter-spacing: 0.01em;
+  word-spacing: 0.2em;
+  outline: none !important;
+  box-shadow: none !important;
   -webkit-text-fill-color: #ffffff !important;
 }
 
-.input-group input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+.auth-page .input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.01em;
+  word-spacing: 0.2em;
 }
 
 .input-group input:disabled {
@@ -208,10 +254,13 @@
   font-size: 0.9rem;
 }
 
-.helper-text {
-  color: rgba(255, 255, 255, 0.5);
-  font-family: 'Poppins', sans-serif;
+.auth-page .helper-text {
+  color: rgba(255, 255, 255, 0.55);
+  font-family: "Outfit", sans-serif;
   font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  word-spacing: 0.18em;
+  line-height: 1.45;
 }
 
 /* OTP Sent Info */
@@ -269,13 +318,15 @@
 }
 
 /* Buttons */
-.btn {
+.auth-page .btn {
   padding: 15px 30px;
   border-radius: 12px;
   border: none;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.05rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.95rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  word-spacing: 0.22em;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -345,8 +396,10 @@
 
 .auth-footer p {
   color: rgba(255, 255, 255, 0.6);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  word-spacing: 0.18em;
 }
 
 .auth-footer a {
@@ -364,7 +417,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .auth-page {
-    padding-top: 80px;
+    padding: 7.5rem 0 3.5rem;
   }
 
   .auth-card {
@@ -383,8 +436,8 @@
     font-size: 0.9rem;
   }
 
-  .input-group input {
-    padding: 13px 16px 13px 48px;
+  .auth-page .input-group input {
+    padding: 0.9rem 0.35rem 0.9rem 0 !important;
     font-size: 0.95rem;
   }
 
@@ -416,13 +469,12 @@
     gap: 20px;
   }
 
-  .input-group input {
-    padding: 12px 14px 12px 46px;
+  .auth-page .input-group input {
+    padding: 0.85rem 0.25rem 0.85rem 0 !important;
     font-size: 0.9rem;
   }
 
-  .input-icon {
-    left: 14px;
+  .auth-page .input-icon {
     font-size: 1rem;
   }
 

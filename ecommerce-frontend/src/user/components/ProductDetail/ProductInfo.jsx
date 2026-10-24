@@ -25,9 +25,31 @@ const ProductInfo = ({
   addingToWishlist,
   isAuthenticated
 }) => {
-  // Get unique sizes and colors
-  const sizes = [...new Set(product.variants?.map(v => v.size).filter(Boolean))];
-  const colors = [...new Set(product.variants?.map(v => ({ color: v.color, colorCode: v.colorCode })).filter(c => c.color))];
+  const COLOR_HEX = {
+    White: '#f4efe6',
+    Black: '#1a1612',
+    'Sky Blue': '#7eb8d6',
+    Beige: '#cbb89a',
+    Olive: '#6b7a4d',
+    Navy: '#1e2a44',
+    Brown: '#6b3f2a',
+    Grey: '#8a8680',
+    Gray: '#8a8680',
+    Champagne: '#e6d5b8',
+  };
+
+  const sizes = [...new Set((product.variants || []).map((v) => v.size).filter(Boolean))];
+  const colors = [];
+  (product.variants || []).forEach((variant) => {
+    if (!variant.color || colors.some((item) => item.color === variant.color)) return;
+    colors.push({
+      color: variant.color,
+      colorCode: variant.colorCode || COLOR_HEX[variant.color] || '#c8bfb2',
+    });
+  });
+
+  const formatPrice = (value) =>
+    Number(value || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 });
 
   // Check if size/color is available
   const isVariantAvailable = (size, color) => {
@@ -39,12 +61,10 @@ const ProductInfo = ({
 
   return (
     <div className="product-details">
-      {/* Brand */}
       {product.brand && (
-        <div className="product-brand">Brand: {product.brand.name}</div>
+        <div className="product-brand">Brand · {product.brand.name}</div>
       )}
 
-      {/* Product Name */}
       <h1 className="product-title">{product.name}</h1>
 
       {/* Rating & Reviews */}
@@ -68,11 +88,11 @@ const ProductInfo = ({
       {/* Price */}
       <div className="product-price-section">
         <div className="price-display">
-          <span className="current-price">₹{currentPrice.toFixed(2)}</span>
+          <span className="current-price">₹{formatPrice(currentPrice)}</span>
           {discount > 0 && (
             <>
-              <span className="original-price">₹{originalPrice.toFixed(2)}</span>
-              <span className="discount-badge">{discount}% OFF</span>
+              <span className="original-price">₹{formatPrice(originalPrice)}</span>
+              <span className="discount-badge">{discount}% off</span>
             </>
           )}
         </div>
@@ -83,26 +103,22 @@ const ProductInfo = ({
       {colors.length > 0 && (
         <div className="variant-selector color-selector">
           <label className="selector-label">
-            Color: <strong>{selectedColor || 'Select'}</strong>
+            Color <strong>{selectedColor || 'Select'}</strong>
           </label>
           <div className="color-options">
-            {colors.map((colorItem, index) => (
+            {colors.map((colorItem) => (
               <button
-                key={index}
+                key={colorItem.color}
+                type="button"
                 className={`color-option ${selectedColor === colorItem.color ? 'selected' : ''} ${
                   !isVariantAvailable(selectedSize, colorItem.color) ? 'disabled' : ''
                 }`}
                 onClick={() => onVariantChange(selectedSize, colorItem.color)}
                 disabled={!isVariantAvailable(selectedSize, colorItem.color)}
                 title={colorItem.color}
-                style={{
-                  backgroundColor: colorItem.colorCode || '#ddd'
-                }}
-              >
-                {selectedColor === colorItem.color && (
-                  <i className="fas fa-check"></i>
-                )}
-              </button>
+                aria-label={colorItem.color}
+                style={{ backgroundColor: colorItem.colorCode }}
+              />
             ))}
           </div>
         </div>
@@ -113,11 +129,10 @@ const ProductInfo = ({
         <div className="variant-selector size-selector">
           <div className="selector-header">
             <label className="selector-label">
-              Size: <strong>{selectedSize || 'Select'}</strong>
+              Size <strong>{selectedSize || 'Select'}</strong>
             </label>
-            <button className="size-chart-btn" onClick={onShowSizeChart}>
-              <i className="fas fa-ruler"></i>
-              Size Chart
+            <button type="button" className="size-chart-btn" onClick={onShowSizeChart}>
+              Size chart
             </button>
           </div>
           <div className="size-options">
@@ -155,24 +170,26 @@ const ProductInfo = ({
         )}
       </div>
 
-      {/* Quantity Selector */}
       {isInStock && (
         <div className="quantity-selector">
-          <label className="selector-label">Quantity:</label>
+          <label className="selector-label">Quantity</label>
           <div className="quantity-controls">
             <button
+              type="button"
               className="qty-btn"
               onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
               disabled={quantity <= 1}
+              aria-label="Decrease quantity"
             >
-              <i className="fas fa-minus"></i>
+              −
             </button>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               className="qty-input"
               value={quantity}
               onChange={(e) => {
-                const newQty = parseInt(e.target.value) || 1;
+                const newQty = parseInt(e.target.value.replace(/\D/g, ''), 10) || 1;
                 if (newQty > stockQuantity) {
                   toast.warning(`Only ${stockQuantity} items available in stock`);
                   onQuantityChange(stockQuantity);
@@ -180,10 +197,10 @@ const ProductInfo = ({
                   onQuantityChange(Math.max(1, newQty));
                 }
               }}
-              min="1"
-              max={stockQuantity}
+              aria-label="Quantity"
             />
             <button
+              type="button"
               className="qty-btn"
               onClick={() => {
                 if (quantity >= stockQuantity) {
@@ -194,8 +211,9 @@ const ProductInfo = ({
               }}
               disabled={quantity >= stockQuantity}
               title={quantity >= stockQuantity ? `Maximum stock: ${stockQuantity}` : ''}
+              aria-label="Increase quantity"
             >
-              <i className="fas fa-plus"></i>
+              +
             </button>
           </div>
         </div>
@@ -216,10 +234,20 @@ const ProductInfo = ({
           ) : (
             <>
               <i className="fas fa-shopping-cart"></i>
-              Add to Cart
+              Bag it
             </>
           )}
         </button>
+
+        {onBuyNow && (
+          <button
+            className="btn-secondary"
+            onClick={onBuyNow}
+            disabled={!isInStock}
+          >
+            Claim it
+          </button>
+        )}
 
         <button
           className={`btn-wishlist ${isInWishlist ? 'active' : ''}`}
