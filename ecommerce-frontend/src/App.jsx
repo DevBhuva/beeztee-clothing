@@ -35,8 +35,7 @@ function AppContent() {
       metaKeywords.content = settings.metaKeywords;
     }
 
-    // Update favicon — logo is the default when CMS has none
-    const faviconHref = settings?.faviconUrl || '/logo.png';
+    const faviconHref = '/logo.png?v=3';
     let favicon = document.querySelector('link[rel="icon"]');
     if (!favicon) {
       favicon = document.createElement('link');

@@ -1,8 +1,7 @@
 import { useRef } from "react";
-import { useSiteSettings } from "../../../context/SiteSettingsContext";
 import "./InstagramFeed.css";
 
-export const BEEZTEE_INSTAGRAM = "https://www.instagram.com/beezteeclothing/";
+export const BEEZTEE_INSTAGRAM = "https://www.instagram.com/beeztee_/";
 
 const POSTS = [
   {
@@ -41,12 +40,11 @@ const POSTS = [
 
 function instagramHandle(url) {
   const match = String(url || "").match(/instagram\.com\/([^/?#]+)/i);
-  return match ? `@${match[1]}` : "@beezteeclothing";
+  return match ? `@${match[1]}` : "@beeztee_";
 }
 
 export default function InstagramFeed() {
-  const { settings } = useSiteSettings();
-  const instagramUrl = settings?.instagramUrl || BEEZTEE_INSTAGRAM;
+  const instagramUrl = BEEZTEE_INSTAGRAM;
   const handle = instagramHandle(instagramUrl);
   const scrollerRef = useRef(null);
 

@@ -114,25 +114,25 @@ export default function NewArrivals() {
                       />
                     </Link>
                     <span className="bh-product__badge">New</span>
+                    <button
+                      type="button"
+                      className="bh-product__wishlist"
+                      onClick={(e) => handleWishlistToggle(e, product)}
+                      aria-label="Toggle wishlist"
+                    >
+                      <i
+                        className={`${
+                          isInWishlist(product.id) ? "fas" : "far"
+                        } fa-heart`}
+                      />
+                    </button>
                     <div className="bh-product__actions">
-                      <button
-                        type="button"
-                        className="bh-product__action"
-                        onClick={(e) => handleWishlistToggle(e, product)}
-                        aria-label="Toggle wishlist"
-                      >
-                        <i
-                          className={`${
-                            isInWishlist(product.id) ? "fas" : "far"
-                          } fa-heart`}
-                        />
-                      </button>
                       <button
                         type="button"
                         className="bh-product__action bh-product__action--cart"
                         onClick={(e) => handleAddToCart(e, product)}
                       >
-                        Add to bag
+                        Bag it
                       </button>
                     </div>
                   </div>

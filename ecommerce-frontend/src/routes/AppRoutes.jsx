@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 import ProtectedRoute from '../components/ProtectedRoute';
 
@@ -48,9 +49,21 @@ import SearchResults from '../admin/pages/SearchResults/SearchResults';
 
 
 
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) return;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname, hash]);
+
+  return null;
+}
+
 export default function AppRoutes() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Frontend Routes */}
         <Route path="/" element={<Home />} />

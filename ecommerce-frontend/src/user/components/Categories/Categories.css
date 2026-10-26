@@ -4,9 +4,15 @@
 
 .bh-cats__grid {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(360px, 52vh);
+  gap: 1rem;
+}
+
+.bh-cats__grid:has(.bh-cats__card--feature) {
   grid-template-columns: 1.4fr 1fr 1fr;
   grid-template-rows: repeat(2, minmax(210px, 28vh));
-  gap: 1rem;
+  grid-auto-rows: unset;
 }
 
 .bh-cats__card {
@@ -60,6 +66,7 @@
   font-weight: 600;
   color: #f7f3ec;
   letter-spacing: 0.02em;
+  word-spacing: 0.16em;
 }
 
 .bh-cats__cta {
@@ -91,19 +98,21 @@
 }
 
 @media (max-width: 900px) {
-  .bh-cats__grid {
+  .bh-cats__grid,
+  .bh-cats__grid:has(.bh-cats__card--feature) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
+    grid-auto-rows: minmax(240px, 36vh);
   }
 
   .bh-cats__card--feature {
-    grid-column: 1 / -1;
+    grid-column: auto;
     grid-row: auto;
-    min-height: 280px;
+    min-height: 240px;
   }
 
   .bh-cats__card {
-    min-height: 220px;
+    min-height: 240px;
   }
 }
 

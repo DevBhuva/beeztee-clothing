@@ -42,8 +42,13 @@ export default function Categories() {
     fetchCategories();
   }, []);
 
-  const getCategoryImage = (category) =>
-    CATEGORY_IMAGES[category.slug] || DEFAULT_IMAGE;
+  const getCategoryImage = (category) => {
+    if (CATEGORY_IMAGES[category.slug]) return CATEGORY_IMAGES[category.slug];
+    const name = String(category.name || "").toLowerCase();
+    if (name === "men" || name === "him") return CATEGORY_IMAGES["mens-clothing"];
+    if (name === "women" || name === "her") return CATEGORY_IMAGES["womens-clothing"];
+    return DEFAULT_IMAGE;
+  };
 
   return (
     <section className="bh-section bh-cats" id="categories">
@@ -71,7 +76,9 @@ export default function Categories() {
               <button
                 key={category.id}
                 type="button"
-                className={`bh-cats__card ${index === 0 ? "bh-cats__card--feature" : ""}`}
+                className={`bh-cats__card ${
+                  index === 0 && categories.length > 2 ? "bh-cats__card--feature" : ""
+                }`}
                 onClick={() => navigate(`/shop?categories=${category.id}`)}
               >
                 <img

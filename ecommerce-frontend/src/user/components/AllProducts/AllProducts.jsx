@@ -93,11 +93,11 @@ export default function AllProducts() {
               All the looks
             </h2>
             <p className="bh-section__text">
-              Every shirt, oversized tee, and crop in the house — shop the full drop.
+              Every shirt, oversized tee, and crop in the house — the full Vault.
             </p>
           </div>
           <Link to="/shop" className="bh-link">
-            Shop it all <i className="fas fa-arrow-right" aria-hidden="true" />
+            The Vault <i className="fas fa-arrow-right" aria-hidden="true" />
           </Link>
         </div>
 
@@ -161,15 +161,15 @@ export default function AllProducts() {
                     ) : product.isNewArrival ? (
                       <span className="bh-product__badge">New</span>
                     ) : null}
+                    <button
+                      type="button"
+                      className="bh-product__wishlist"
+                      onClick={(e) => handleWishlistToggle(e, product)}
+                      aria-label="Toggle wishlist"
+                    >
+                      <i className={`${isInWishlist(product.id) ? "fas" : "far"} fa-heart`} />
+                    </button>
                     <div className="bh-product__actions">
-                      <button
-                        type="button"
-                        className="bh-product__action"
-                        onClick={(e) => handleWishlistToggle(e, product)}
-                        aria-label="Toggle wishlist"
-                      >
-                        <i className={`${isInWishlist(product.id) ? "fas" : "far"} fa-heart`} />
-                      </button>
                       <button
                         type="button"
                         className="bh-product__action bh-product__action--cart"

@@ -20,11 +20,11 @@ export const SiteSettingsProvider = ({ children }) => {
     contactPhone: '',
     whatsappNumber: '',
     contactAddress: '',
-    logoUrl: '',
+    logoUrl: '/logo.png',
     faviconUrl: '/logo.png',
     facebookUrl: '',
     twitterUrl: '',
-    instagramUrl: '',
+    instagramUrl: 'https://www.instagram.com/beeztee_/',
     linkedinUrl: '',
     youtubeUrl: '',
     pinterestUrl: '',
@@ -53,7 +53,15 @@ export const SiteSettingsProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:3000/api/site-settings');
       if (response.data.success) {
-        setSettings(response.data.data);
+        const data = response.data.data || {};
+        setSettings({
+          ...data,
+          logoUrl: data.logoUrl || '/logo.png',
+          faviconUrl: data.faviconUrl || '/logo.png',
+          instagramUrl: data.instagramUrl?.includes('beeztee_')
+            ? data.instagramUrl
+            : 'https://www.instagram.com/beeztee_/',
+        });
       }
     } catch (error) {
       console.error('Error fetching site settings:', error);

@@ -133,7 +133,7 @@ const ShopContent = () => {
         <section className="bh-page-banner">
           <div className="bh-page-banner__inner">
             <p className="bh-page-banner__eyebrow">Collection</p>
-            <h1 className="bh-page-banner__title">Shop</h1>
+            <h1 className="bh-page-banner__title">Vault</h1>
             <p className="bh-page-banner__text">
               Explore curated pieces designed for modern elegance and everyday polish.
             </p>
@@ -256,16 +256,15 @@ const ShopContent = () => {
                                     e.currentTarget.src = `https://images.unsplash.com/photo-1523381216130-8b3f99a87a6d?auto=format&fit=crop&w=800&q=80&sig=${product.id}`;
                                   }}
                                 />
+                                <button 
+                                  type="button"
+                                  className="product-action-btn product-wishlist-btn"
+                                  onClick={(e) => handleWishlistToggle(e, product)}
+                                  title={productInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                                >
+                                  <i className={`${productInWishlist ? 'fas' : 'far'} fa-heart`}></i>
+                                </button>
                                 <div className="product-overlay">
-                                  <div className="product-actions">
-                                    <button 
-                                      className="product-action-btn"
-                                      onClick={(e) => handleWishlistToggle(e, product)}
-                                      title={productInWishlist ? "Remove from wishlist" : "Add to wishlist"}
-                                    >
-                                      <i className={`${productInWishlist ? 'fas' : 'far'} fa-heart`}></i>
-                                    </button>
-                                  </div>
                                   <button 
                                     className="product-quick-view add-to-cart"
                                     onClick={(e) => handleAddToCart(e, product)}

@@ -306,7 +306,7 @@ const ProductDetail = () => {
   // Breadcrumbs
   const breadcrumbs = product ? [
     { name: 'Home', link: '/' },
-    { name: 'Shop', link: '/shop' },
+    { name: 'Vault', link: '/shop' },
     { name: product.category?.name || 'Category', link: `/shop?categories=${product.categoryId}` },
     { name: product.name, link: '' }
   ] : [];

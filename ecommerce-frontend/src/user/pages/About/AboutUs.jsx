@@ -33,11 +33,11 @@ export default function AboutUs() {
                 <p className="section-eyebrow">Our story</p>
                 <h2>Where it all began</h2>
                 <p>
-                  Beeztee wasn’t built on some corporate origin story—we just got tired of clothes that don’t last.
+                  Beeztee wasn’t built on some corporate origin story. we just got tired of clothes that don’t last.
                   We make heavy-rotation essentials designed to look effortless and hold their shape.
                 </p>
                 <p>
-                  Every drop is dialed in for clean silhouettes and zero filler. No noise, no gimmicks—just solid
+                  Every drop is dialed in for clean silhouettes and zero filler. No noise, no gimmicks just solid
                   pieces that permanently live in your daily rotation.
                 </p>
                 <p>
@@ -99,14 +99,14 @@ export default function AboutUs() {
                 <div className="process-content">
                   <div className="process-number">1</div>
                   <h3 className="process-title">Inspiration</h3>
-                  <p className="process-description">From a cut, a fabric, or a gap in the rotation—we start with what is missing.</p>
+                  <p className="process-description">Each collection begins with art, architecture, travel, and the stories of people who inspire us.</p>
                 </div>
               </div>
               <div className="process-item">
                 <div className="process-content">
                   <div className="process-number">2</div>
-                  <h3 className="process-title">We</h3>
-                  <p className="process-description">Cuts, silhouettes, and prototypes stay close to how the piece will actually be worn.</p>
+                  <h3 className="process-title">Design</h3>
+                  <p className="process-description">We translate ideas into sketches and prototypes with fit, comfort, and longevity in mind.</p>
                 </div>
               </div>
               <div className="process-item">
@@ -134,7 +134,7 @@ export default function AboutUs() {
               Get early access to fresh drops, styling breakdowns, and heavy-rotation essentials before anyone else.
             </p>
             <div className="cta-buttons">
-              <Link to="/shop" className="btn btn-primary">Shop the drop</Link>
+              <Link to="/#journal" className="btn btn-primary">Inner Circle</Link>
               <Link to="/contact" className="btn btn-outline">Hit us up</Link>
             </div>
           </div>

@@ -127,8 +127,9 @@ export default function Topbar({ onMenuClick }) {
             <FaBars />
           </button>
           <div className="logo-brand">
+            <img src="/logo.png" alt="Beeztee" className="topbar-logo-img" />
             <div className="logo-text">
-              <h1>Beestee</h1>
+              <h1>Beeztee</h1>
               <span>Admin Panel</span>
             </div>
           </div>

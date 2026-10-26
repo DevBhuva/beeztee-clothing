@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useSiteSettings } from "../../../context/SiteSettingsContext";
 import "./OurStory.css";
 
@@ -31,9 +32,9 @@ export default function OurStory() {
               <span>Estd.</span>
             </div>
           </div>
-          <a href="#journal" className="bh-story__cta">
+          <Link to="/#journal" className="bh-story__cta">
             Inner Circle
-          </a>
+          </Link>
         </div>
       </div>
     </section>

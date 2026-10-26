@@ -47,6 +47,17 @@
   margin: 0 0 2.25rem;
 }
 
+.auth-logo {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto 1.1rem;
+  display: block;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 0;
+  padding: 0.2rem;
+}
+
 .auth-eyebrow {
   margin: 0 0 0.75rem;
   font-family: "Outfit", sans-serif;

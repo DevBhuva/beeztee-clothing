@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import HeroSection from '../../components/Hero/HeroSection';
@@ -13,6 +15,16 @@ import Marquee from '../../components/Marquee/Marquee';
 import './Home.css';
 
 export default function Home() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash !== '#journal') return;
+    const timer = window.setTimeout(() => {
+      document.getElementById('journal')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [location.hash]);
+
   return (
     <div className="bh-home">
       <Header />

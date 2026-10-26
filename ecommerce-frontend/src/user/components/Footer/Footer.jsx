@@ -6,7 +6,7 @@ import Marquee from '../Marquee/Marquee';
 import { BEEZTEE_INSTAGRAM } from '../Instagram/InstagramFeed';
 import './Footer.css';
 
-const brandLogo = '/logo.png';
+const brandLogo = '/logo.png?v=3';
 const SUPPORT_EMAIL = 'support@beeztee.com';
 const CLOTHING_EMAIL = 'beezteeclothing@gmail.com';
 
@@ -83,7 +83,7 @@ export default function Footer() {
   }, []);
 
   const brandName = settings?.siteName || 'Beeztee';
-  const instagramUrl = settings?.instagramUrl || BEEZTEE_INSTAGRAM;
+  const instagramUrl = BEEZTEE_INSTAGRAM;
   const facebookUrl = settings?.facebookUrl || 'https://www.facebook.com/beezteeclothing';
   const extraEmail =
     settings?.contactEmail && ![SUPPORT_EMAIL, CLOTHING_EMAIL].includes(settings.contactEmail)
@@ -199,7 +199,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <i className="fab fa-instagram" aria-hidden="true" />
-                <span>@beezteeclothing</span>
+                <span>@beeztee_</span>
               </a>
             </div>
           </div>

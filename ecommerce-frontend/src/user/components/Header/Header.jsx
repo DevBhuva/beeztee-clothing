@@ -6,7 +6,7 @@ import { useWishlist } from "../../../context/WishlistContext";
 import { useSiteSettings } from "../../../context/SiteSettingsContext";
 import "./Header.css";
 
-const brandLogo = "/logo.png";
+const brandLogo = "/logo.png?v=3";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { sendOTP, verifyOTP } from '../../../services/authService';
 import { useAuth } from '../../../context/AuthContext';
@@ -15,6 +15,10 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState({ email: false, otp: false });
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, []);
 
   const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
@@ -136,6 +140,7 @@ function Login() {
         <div className="auth-container">
           <div className="auth-card">
             <div className="auth-header">
+              <img src="/logo.png?v=3" alt="Beeztee" className="auth-logo" />
               <p className="auth-eyebrow">Account</p>
               <h1>Welcome back</h1>
               <p>Sign in with email OTP to continue shopping</p>

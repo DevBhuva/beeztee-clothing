@@ -164,6 +164,7 @@ function Register() {
         <div className="auth-container">
           <div className="auth-card">
             <div className="auth-header">
+              <img src="/logo.png?v=3" alt="Beeztee" className="auth-logo" />
               <p className="auth-eyebrow">Be the family</p>
               <h1>Create account</h1>
               <p>

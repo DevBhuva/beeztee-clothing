@@ -39,9 +39,9 @@ nav.scrolled {
   text-decoration: none;
   line-height: 0;
   background: #fff;
-  border-radius: 50%;
-  width: 3.85rem;
-  height: 3.85rem;
+  border-radius: 0;
+  width: 5rem;
+  height: 5rem;
   padding: 0.2rem;
   transition: opacity 0.25s ease;
   z-index: 1001;
@@ -52,8 +52,8 @@ nav.scrolled {
 }
 
 .logo-img {
-  height: 3.35rem;
-  width: 3.35rem;
+  height: 5rem;
+  width: 5rem;
   max-width: none;
   object-fit: contain;
   display: block;

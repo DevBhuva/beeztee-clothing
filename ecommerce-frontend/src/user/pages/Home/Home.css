@@ -125,8 +125,10 @@
   transition: transform 0.6s ease;
 }
 
-.bh-home .bh-product:hover .bh-product__link img {
-  transform: scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+  .bh-home .bh-product:hover .bh-product__link img {
+    transform: scale(1.05);
+  }
 }
 
 .bh-home .bh-product__badge {
@@ -148,6 +150,27 @@
   color: #1a1612;
 }
 
+.bh-home .bh-product__wishlist {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: none;
+  cursor: pointer;
+  background: #f7f3ec;
+  color: #1a1612;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.bh-home .bh-product__wishlist:hover {
+  background: #c4862f;
+}
+
 .bh-home .bh-product__actions {
   position: absolute;
   left: 0.75rem;
@@ -159,12 +182,16 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
 }
 
-.bh-home .bh-product:hover .bh-product__actions,
-.bh-home .bh-product:focus-within .bh-product__actions {
-  opacity: 1;
-  transform: translateY(0);
+@media (hover: hover) and (pointer: fine) {
+  .bh-home .bh-product:hover .bh-product__actions,
+  .bh-home .bh-product:focus-within .bh-product__actions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 }
 
 .bh-home .bh-product__action {
@@ -283,13 +310,43 @@
     margin-bottom: 2rem;
   }
 
+  .bh-home .bh-product__media {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+  }
+
+  .bh-home .bh-product__link {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .bh-home .bh-product__wishlist {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
   .bh-home .bh-product__actions {
+    position: static;
     opacity: 1;
     transform: none;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 0.55rem;
+    pointer-events: auto;
   }
 
   .bh-home .bh-product__action--cart {
+    flex: 1;
     font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
+    word-spacing: 0.28em;
+    text-transform: uppercase;
   }
 }
